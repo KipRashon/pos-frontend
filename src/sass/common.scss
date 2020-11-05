@@ -1,0 +1,28 @@
+.section {
+  height: 100vh;
+}
+
+.item {
+  color: #000;
+  background-color: #cacaca;
+  border-radius: 4px;
+
+  &:hover {
+    transform: scale(1, 1.1);
+    transition-duration: 0.2s;
+  }
+}
+.link {
+  cursor: pointer;
+}
+.link-button {
+  color: #7a99b6;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}

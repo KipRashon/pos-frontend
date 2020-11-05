@@ -3,6 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import $ from 'jquery';
+import Popper from 'popper.js';
+
+import 'bootstrap';
+import './sass/app.scss';
+
+window.$ = $;
+window.Popper = Popper;
 
 ReactDOM.render(
   <React.StrictMode>
