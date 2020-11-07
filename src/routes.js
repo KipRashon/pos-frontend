@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   BrowserRouter as Router,
   Redirect,
@@ -14,6 +13,11 @@ import Login from './pages/login/login';
 import Categories from './pages/admin/category/categories';
 import Goods from './pages/admin/goods/goods';
 import Pricing from './pages/admin/pricing/pricing';
+import EmployeeWelcome from './pages/employee/employee-welcome';
+import EmployeeSales from './pages/employee/employee-sales';
+import EmployeeSaleDetail from './pages/employee/employee-sale-detai';
+import SaleDetail from './pages/admin/sales/sale-detail';
+import Sales from './pages/admin/sales/sales';
 
 function Routes() {
   return (
@@ -22,8 +26,24 @@ function Routes() {
       <Switch>
         <Route path='/login' render={(props) => <Login {...props} />}></Route>
         <Route
+          exact
           path='/employee'
+          render={(props) => <EmployeeWelcome {...props} />}
+        ></Route>
+        <Route
+          exact
+          path='/employee/dashboard/:id'
           render={(props) => <EmployeeDashboard {...props} />}
+        ></Route>
+        <Route
+          exact
+          path='/employee/sales'
+          render={(props) => <EmployeeSales {...props} />}
+        ></Route>
+        <Route
+          exact
+          path='/employee/sales/view/:id'
+          render={(props) => <EmployeeSaleDetail {...props} />}
         ></Route>
         <Route
           exact
@@ -34,6 +54,16 @@ function Routes() {
           exact
           path='admin/dashboard'
           render={(props) => <AdminDashboard {...props} />}
+        ></Route>
+        <Route
+          exact
+          path='/admin/sales/view/:id'
+          render={(props) => <SaleDetail {...props} />}
+        ></Route>
+        <Route
+          exact
+          path='/admin/sales'
+          render={(props) => <Sales {...props} />}
         ></Route>
 
         <Route
@@ -62,7 +92,8 @@ function Routes() {
           path='/admin/products/:id/pricing'
           render={(props) => <Pricing {...props} />}
         ></Route>
-        <Redirect exact to='login' />
+
+        <Redirect exact to='/login' />
       </Switch>
     </Router>
   );

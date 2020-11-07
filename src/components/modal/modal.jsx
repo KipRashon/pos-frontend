@@ -4,7 +4,9 @@ import './modal.scss';
 function Modal(props) {
   const {children} = props;
   return (
-    <div class='mymodal animate__animated animate__bounceInUp'>{children}</div>
+    <div className='mymodal animate__animated animate__bounceInUp'>
+      {children}
+    </div>
   );
 }
 

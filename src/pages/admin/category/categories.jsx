@@ -8,6 +8,7 @@ import {
   sendGetRequest,
   sendPostRequest,
 } from '../../../services/api-handle';
+import {places} from '../../../services/constants';
 import {formatDate, getDateTimeAgo} from '../../../services/utility';
 import withTemplate from '../with-template';
 
@@ -22,7 +23,7 @@ class Categories extends Component {
   fetchCategories() {
     handleError(
       handleSuccess(sendGetRequest('categories')).then((res) => {
-        this.setState({categories: res.data});
+        this.setState({categories: res.data.categories});
       })
     );
   }
@@ -71,6 +72,7 @@ class Categories extends Component {
               <tr>
                 <th>#</th>
                 <th>Name</th>
+                <th>Type</th>
                 <th>Created</th>
                 <th>Updated</th>
               </tr>
@@ -86,6 +88,9 @@ class Categories extends Component {
                     >
                       {category.name}
                     </Link>
+                  </td>
+                  <td>
+                    {category.place === places.BAR ? 'Bar' : 'Restaurant'}
                   </td>
                   <td>
                     <span title={formatDate(category.created_at)}>
@@ -129,6 +134,19 @@ function AddCategory(props) {
         <div className='h4 text-center'>Add Category</div>
       </div>
       <div className='modal-body'>
+        <div className='form-group'>
+          <label htmlFor=''>Type</label>
+          <select
+            name=''
+            id=''
+            className='form-control'
+            onChange={(e) => setCategory({...category, place: e.target.value})}
+          >
+            <option value=''>Select Type</option>
+            <option value={places.BAR}>Bar</option>
+            <option value={places.RESTAURANT}>Restaurant</option>
+          </select>
+        </div>
         <div className='form-group'>
           <label htmlFor=''>Name</label>
           <input

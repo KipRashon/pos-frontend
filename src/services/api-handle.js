@@ -5,13 +5,13 @@ let API = axios.create({
   baseURL: 'https://posbackend.sk.co.ke/api',
 });
 
-export function showNotification(title, color) {
+export function showNotification(title, color, position) {
   if (color === 'success') {
-    toast.success(title);
+    toast.success(title, {position: position || 'top-right'});
   } else if (color === 'warning') {
-    toast.warn(title);
+    toast.warn(title, {position: position || 'top-right'});
   } else {
-    toast.error(title);
+    toast.error(title, {position: position || 'top-right'});
   }
 }
 export function sendPostRequest(url, params) {
@@ -46,9 +46,18 @@ export function handleSuccess(promiseFunc, successMessage) {
 export function handleError(promiseFunc) {
   return promiseFunc.catch((err) => {
     if (err.response) {
-      let message = err.response.data.error_message;
+      let message = err.response.data;
+
       if (message) {
-        showNotification(message, 'danger');
+        if (message.errors) {
+          for (let key in message.errors) {
+            let error = message.errors[key];
+
+            error.forEach((err) => showNotification(err, 'danger'));
+          }
+        } else {
+          showNotification(message.message, 'danger');
+        }
       } else {
         showNotification('Database Error', 'danger');
       }

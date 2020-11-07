@@ -114,7 +114,7 @@ function AddEmployee(props) {
               Cancel
             </button>
             <button className='btn btn-primary col-4' onClick={saveEmployee}>
-              Save Admin
+              Save Employee
             </button>
           </div>
         </div>

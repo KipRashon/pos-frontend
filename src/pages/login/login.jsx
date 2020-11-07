@@ -1,7 +1,57 @@
 import React, {Component} from 'react';
+import {
+  handleError,
+  handleSuccess,
+  sendPostRequest,
+} from '../../services/api-handle';
+import {user_types} from '../../services/constants';
+import {removeFromLocalStorage, storeUserLocally} from '../../services/utility';
 
 export default class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: {
+        level: user_types.EMPLOYEE,
+      },
+    };
+  }
+
+  updatePropChange = (obj) => {
+    this.setState({
+      user: {
+        ...this.state.user,
+        ...obj,
+      },
+    });
+  };
+  componentDidMount() {
+    removeFromLocalStorage('currentUser');
+  }
+
+  handleLogin = () => {
+    const {user} = this.state;
+    let url = 'admins/login';
+    let successMessage = 'Login successful';
+    let redirectUrl = '/admin';
+    let isAdmin = user.level === user_types.ADMIN;
+    if (!isAdmin) {
+      url = 'employees/login';
+      redirectUrl = '/employee';
+    }
+    handleError(
+      handleSuccess(sendPostRequest(url, user), successMessage).then((res) => {
+        let user = res.data.user;
+        storeUserLocally('currentUser', {
+          ...user,
+          isAdmin,
+        });
+        this.props.history.push(redirectUrl);
+      })
+    );
+  };
   render() {
+    const {user} = this.state;
     return (
       <div className='container'>
         <div className='row justify-content-center'>
@@ -17,12 +67,29 @@ export default class Login extends Component {
                   role='group'
                   aria-label='Basic example'
                 >
-                  <button type='button' className='btn btn-dark mr-1'>
+                  <button
+                    type='button'
+                    className={`btn btn-${
+                      user.level === user_types.EMPLOYEE
+                        ? 'white border-dark'
+                        : 'dark'
+                    }`}
+                    onClick={() =>
+                      this.updatePropChange({level: user_types.ADMIN})
+                    }
+                  >
                     Admin
                   </button>
                   <button
                     type='button'
-                    className='btn btn-light border  border-dark'
+                    className={`btn btn-${
+                      user.level === user_types.ADMIN
+                        ? 'white border-dark'
+                        : 'dark'
+                    }`}
+                    onClick={() =>
+                      this.updatePropChange({level: user_types.EMPLOYEE})
+                    }
                   >
                     Employee
                   </button>
@@ -30,11 +97,14 @@ export default class Login extends Component {
               </div>
 
               <div className='form-group'>
-                <label htmlFor='username'>Username</label>
+                <label htmlFor='email'>Email</label>
                 <input
                   type='text'
                   className='form-control'
-                  placeholder='Enter username'
+                  placeholder='Enter email'
+                  onChange={(e) =>
+                    this.updatePropChange({email: e.target.value})
+                  }
                 />
               </div>
               <div className='form-group'>
@@ -43,6 +113,9 @@ export default class Login extends Component {
                   type='password'
                   className='form-control'
                   placeholder='Enter password'
+                  onChange={(e) =>
+                    this.updatePropChange({password: e.target.value})
+                  }
                 />
               </div>
 
@@ -50,7 +123,7 @@ export default class Login extends Component {
               <div className='row justify-content-center'>
                 <button
                   className='btn btn-primary col-6'
-                  onClick={() => this.props.history.push('/admin')}
+                  onClick={this.handleLogin}
                 >
                   Login
                 </button>

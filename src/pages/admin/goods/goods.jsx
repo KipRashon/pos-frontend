@@ -8,6 +8,7 @@ import {
   sendGetRequest,
   sendPostRequest,
 } from '../../../services/api-handle';
+import {places} from '../../../services/constants';
 import {formatDate, getDateTimeAgo} from '../../../services/utility';
 import withTemplate from '../with-template';
 

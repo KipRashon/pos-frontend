@@ -1,21 +1,28 @@
 import React from 'react';
 import './category.scss';
 
-function Category() {
+function Category(props) {
+  const {category, onItemClick} = props;
+
   return (
-    <div className='category shadow shadow-secondary p-2'>
-      <h5 className='text-center text-uppercase mb-1'>Scratch Pork</h5>
-      <Item name='Grilled Pork' />
-      <Item name='Honey Glazed' />
+    <div className='category shadow shadow-secondary p-2 mb-2'>
+      <h5 className='text-center text-uppercase mb-1'>{category.name}</h5>
+      {category.goods.map((good) => (
+        <Item item={good} onItemClick={onItemClick} />
+      ))}
     </div>
   );
 }
 
 function Item(props) {
-  const {name} = props;
+  const {item, onItemClick} = props;
   return (
-    <div className='item p-2 link mb-2' title='Click to add'>
-      {name}
+    <div
+      className='item p-2 link mb-2'
+      title='Click to add'
+      onClick={() => onItemClick(item)}
+    >
+      {item.name}
       <div className='float-right'>
         <i className='fa fa-plus'></i>
       </div>

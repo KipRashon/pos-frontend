@@ -21,9 +21,11 @@
     "react-toastify": "^6.0.9",
     "sass": "^1.28.0",
     "sass-loader": "^10.0.5",
-    "web-vitals": "^0.2.4"
+    "web-vitals": "^0.2.4",
+    "react-to-print": "^2.11.0"
   },
-  "dependencies": {},
+  "dependencies": {
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

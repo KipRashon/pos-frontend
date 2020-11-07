@@ -7,7 +7,7 @@ import {
 import {formatDate, getFormattedAmount} from '../../../services/utility';
 import withTemplate from '../with-template';
 
-class AdminDashboard extends Component {
+class Sales extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,7 +26,7 @@ class AdminDashboard extends Component {
     const {sales} = this.state;
     return (
       <div className='mt-3'>
-        <h2>Latest Sales</h2>
+        <h2> Sales</h2>
         <div className='table-responsive'>
           <table className='table table-striped table-sm'>
             <thead>
@@ -74,4 +74,4 @@ class AdminDashboard extends Component {
   }
 }
 
-export default withTemplate(AdminDashboard);
+export default withTemplate(Sales);
