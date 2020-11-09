@@ -8,4 +8,11 @@ export const places = {
   BAR: 2,
 };
 
-export const payment_methods = ['Cash', 'Mpesa', 'Card'];
+export const payment_methods = [
+  'Cash',
+  'Mpesa',
+  'Card',
+  'Glovo',
+  'Jumia',
+  'Uber Eats',
+];
