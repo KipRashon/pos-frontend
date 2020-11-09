@@ -73,29 +73,34 @@ export default function ProcessTransaction(props) {
           </h3>
 
           <div className='add-subtract row justify-content-center'>
-            <button
-              className='btn btn-light col-3'
-              onClick={() => {
-                if (count > 0) {
-                  setCount(count - 1);
-                }
-              }}
-            >
-              <i className='fa fa-minus'></i>
-            </button>
-            <div className='h4 text-center p-2 ml-1 mr-1'>
-              {pricingItem.measure + ' ' + pricingItem.unit}
-            </div>
-            <button
-              className='btn btn-light col-3'
-              onClick={() => {
-                if (count < pricings.length - 1) {
-                  setCount(count + 1);
-                }
-              }}
-            >
-              <i className='fa fa-plus'></i>
-            </button>
+            {pricingItem.unit === 'count' ? null : (
+              <>
+                <button
+                  className='btn btn-light col-3'
+                  onClick={() => {
+                    if (count > 0) {
+                      setCount(count - 1);
+                    }
+                  }}
+                >
+                  <i className='fa fa-minus'></i>
+                </button>
+                <div className='h4 text-center p-2 ml-1 mr-1'>
+                  {pricingItem.measure + ' ' + pricingItem.unit}
+                </div>
+                <button
+                  className='btn btn-light col-3'
+                  onClick={() => {
+                    if (count < pricings.length - 1) {
+                      setCount(count + 1);
+                    }
+                  }}
+                >
+                  <i className='fa fa-plus'></i>
+                </button>
+              </>
+            )}
+
             <div className='w-100'></div>
 
             <div className='form-group col-2 mt-3'>
