@@ -63,9 +63,6 @@ class Pricing extends Component {
     handleError(
       handleSuccess(sendPostRequest(url, selectedPricing), successMessage).then(
         (res) => {
-          this.setState({
-            selectedPricing: {},
-          });
           this.getPricings();
         }
       )
