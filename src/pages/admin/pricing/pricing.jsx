@@ -7,7 +7,11 @@ import {
   sendGetRequest,
   sendPostRequest,
 } from '../../../services/api-handle';
-import {formatDate, getDateTimeAgo} from '../../../services/utility';
+import {
+  formatDate,
+  getDateTimeAgo,
+  getFormattedMeasure,
+} from '../../../services/utility';
 import withTemplate from '../with-template';
 
 class Pricing extends Component {
@@ -162,7 +166,9 @@ class Pricing extends Component {
                       onClick={() => this.showEditPricing(pricing)}
                     >
                       <td>{++index}</td>
-                      <td>{pricing.measure + ' ' + pricing.unit}</td>
+                      <td>
+                        {getFormattedMeasure(pricing.unit, pricing.measure)}
+                      </td>
                       <td>{'Ksh ' + pricing.amount}</td>
                       <td>
                         <span title={formatDate(pricing.created_at)}>
