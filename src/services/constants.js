@@ -15,4 +15,5 @@ export const payment_methods = [
   'Glovo',
   'Jumia',
   'Uber Eats',
+  'Little Cab',
 ];
