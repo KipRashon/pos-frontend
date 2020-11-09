@@ -71,5 +71,8 @@ export function getFormattedAmount(amount, quantity) {
 }
 
 export function getFormattedMeasure(unit, measure) {
+  if (unit === 'count') {
+    return measure;
+  }
   return `${measure} ${unit}`;
 }

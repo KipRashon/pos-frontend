@@ -10,7 +10,11 @@ import {
   sendPostRequest,
   showNotification,
 } from '../../services/api-handle';
-import {formatUrl, getFromLocal} from '../../services/utility';
+import {
+  formatUrl,
+  getFormattedMeasure,
+  getFromLocal,
+} from '../../services/utility';
 import './employee.scss';
 import ReactToPrint from 'react-to-print';
 import ReceiptPrint from '../../components/receipt/receipt-print';
@@ -133,7 +137,9 @@ class EmployeeDashboard extends Component {
           cartItems.forEach((item) => {
             goods.push(item.id);
             quantities.push(parseInt(item.quantity));
-            measures.push(`${item.price.measure} ${item.price.unit}`);
+            measures.push(
+              getFormattedMeasure(item.price.unit, item.price.measure)
+            );
             prices.push(`Ksh ${item.price.amount}`);
           });
 
