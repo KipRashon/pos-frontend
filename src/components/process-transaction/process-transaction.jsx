@@ -6,6 +6,7 @@ import {
 } from '../../services/api-handle';
 import {getFromLocal} from '../../services/utility';
 import './process-transaction.scss';
+import {trackPromise} from 'react-promise-tracker';
 
 export default function ProcessTransaction(props) {
   const {selectedItem, handleAddToCart} = props;
@@ -19,13 +20,15 @@ export default function ProcessTransaction(props) {
   useEffect(() => {
     let itemId = selectedItem.id;
     if (itemId) {
-      handleError(
-        handleSuccess(
-          sendGetRequest('pricings?good=' + itemId).then((res) => {
-            let pricings = res.data.pricings;
-            setPricings(pricings);
-            setCount(0);
-          })
+      trackPromise(
+        handleError(
+          handleSuccess(
+            sendGetRequest('pricings?good=' + itemId).then((res) => {
+              let pricings = res.data.pricings;
+              setPricings(pricings);
+              setCount(0);
+            })
+          )
         )
       );
     }

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {trackPromise} from 'react-promise-tracker';
 import {
   handleError,
   handleSuccess,
@@ -39,15 +40,19 @@ export default class Login extends Component {
       url = 'employees/login';
       redirectUrl = '/employee';
     }
-    handleError(
-      handleSuccess(sendPostRequest(url, user), successMessage).then((res) => {
-        let user = res.data.user;
-        storeUserLocally('currentUser', {
-          ...user,
-          isAdmin,
-        });
-        this.props.history.push(redirectUrl);
-      })
+    trackPromise(
+      handleError(
+        handleSuccess(sendPostRequest(url, user), successMessage).then(
+          (res) => {
+            let user = res.data.user;
+            storeUserLocally('currentUser', {
+              ...user,
+              isAdmin,
+            });
+            this.props.history.push(redirectUrl);
+          }
+        )
+      )
     );
   };
   render() {

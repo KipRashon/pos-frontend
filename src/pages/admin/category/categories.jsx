@@ -1,4 +1,5 @@
 import React, {Component, useState} from 'react';
+import {trackPromise} from 'react-promise-tracker';
 import {Link} from 'react-router-dom';
 import Modal from '../../../components/modal/modal';
 import TableIcon from '../../../components/table-icon/table-icon';
@@ -21,10 +22,12 @@ class Categories extends Component {
   }
 
   fetchCategories() {
-    handleError(
-      handleSuccess(sendGetRequest('categories')).then((res) => {
-        this.setState({categories: res.data.categories});
-      })
+    trackPromise(
+      handleError(
+        handleSuccess(sendGetRequest('categories')).then((res) => {
+          this.setState({categories: res.data.categories});
+        })
+      )
     );
   }
   componentDidMount() {
@@ -36,11 +39,13 @@ class Categories extends Component {
   };
 
   onDelete = (category) => {
-    handleError(
-      handleSuccess(
-        sendPostRequest(`categories/${category.id}/delete`),
-        'Category deleted successfully'
-      ).then((res) => this.fetchCategories())
+    trackPromise(
+      handleError(
+        handleSuccess(
+          sendPostRequest(`categories/${category.id}/delete`),
+          'Category deleted successfully'
+        ).then((res) => this.fetchCategories())
+      )
     );
   };
 
@@ -121,11 +126,13 @@ function AddCategory(props) {
   const {handleClose} = props;
   const [category, setCategory] = useState({});
   const onSave = () => {
-    handleError(
-      handleSuccess(
-        sendPostRequest('categories', category),
-        'Category added successfully'
-      ).then((res) => handleClose())
+    trackPromise(
+      handleError(
+        handleSuccess(
+          sendPostRequest('categories', category),
+          'Category added successfully'
+        ).then((res) => handleClose())
+      )
     );
   };
   return (

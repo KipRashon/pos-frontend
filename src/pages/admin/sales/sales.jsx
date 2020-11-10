@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {trackPromise} from 'react-promise-tracker';
 import {
   handleError,
   handleSuccess,
@@ -15,11 +16,13 @@ class Sales extends Component {
     };
   }
   componentDidMount() {
-    handleError(
-      handleSuccess(sendGetRequest('sales')).then((res) => {
-        let sales = res.data.sales;
-        this.setState({sales});
-      })
+    trackPromise(
+      handleError(
+        handleSuccess(sendGetRequest('sales')).then((res) => {
+          let sales = res.data.sales;
+          this.setState({sales});
+        })
+      )
     );
   }
   render() {

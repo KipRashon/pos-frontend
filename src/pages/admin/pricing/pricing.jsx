@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {trackPromise} from 'react-promise-tracker';
 import {toast} from 'react-toastify';
 import TableIcon from '../../../components/table-icon/table-icon';
 import {
@@ -31,11 +32,13 @@ class Pricing extends Component {
       return;
     }
 
-    handleError(
-      handleSuccess(sendGetRequest('pricings?good=' + goodId)).then((res) => {
-        let pricings = res.data.pricings;
-        this.setState({pricings});
-      })
+    trackPromise(
+      handleError(
+        handleSuccess(sendGetRequest('pricings?good=' + goodId)).then((res) => {
+          let pricings = res.data.pricings;
+          this.setState({pricings});
+        })
+      )
     );
   }
 
@@ -64,11 +67,14 @@ class Pricing extends Component {
     }
 
     selectedPricing.good = goodId;
-    handleError(
-      handleSuccess(sendPostRequest(url, selectedPricing), successMessage).then(
-        (res) => {
+    trackPromise(
+      handleError(
+        handleSuccess(
+          sendPostRequest(url, selectedPricing),
+          successMessage
+        ).then((res) => {
           this.getPricings();
-        }
+        })
       )
     );
   };
@@ -77,10 +83,12 @@ class Pricing extends Component {
     this.setState({selectedPricing});
   };
   onDelete = (pricing) => {
-    handleError(
-      handleSuccess(
-        sendPostRequest(`pricings/${pricing.id}/delete`)
-      ).then((res) => this.getPricings())
+    trackPromise(
+      handleError(
+        handleSuccess(
+          sendPostRequest(`pricings/${pricing.id}/delete`)
+        ).then((res) => this.getPricings())
+      )
     );
   };
   render() {

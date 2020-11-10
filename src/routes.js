@@ -18,10 +18,13 @@ import EmployeeSales from './pages/employee/employee-sales';
 import EmployeeSaleDetail from './pages/employee/employee-sale-detai';
 import SaleDetail from './pages/admin/sales/sale-detail';
 import Sales from './pages/admin/sales/sales';
+import Loader from './components/loader/loader';
 
 function Routes() {
   return (
     <Router>
+      <Loader />
+
       <ToastContainer hideProgressBar={true} />
       <Switch>
         <Route path='/login' render={(props) => <Login {...props} />}></Route>

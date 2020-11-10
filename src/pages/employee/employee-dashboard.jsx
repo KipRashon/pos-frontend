@@ -19,6 +19,7 @@ import './employee.scss';
 import ReactToPrint from 'react-to-print';
 import ReceiptPrint from '../../components/receipt/receipt-print';
 import withEmployeeValidation from './with-employee-validation';
+import {trackPromise} from 'react-promise-tracker';
 
 class EmployeeDashboard extends Component {
   constructor(props) {
@@ -42,11 +43,16 @@ class EmployeeDashboard extends Component {
     let place = this.props.match.params.id;
 
     let url = formatUrl('categories', {place});
-    handleError(
-      handleSuccess(sendGetRequest(url)).then((res) => {
-        let categories = res.data.categories;
-        this.setState({categories: categories, filteredCategories: categories});
-      })
+    trackPromise(
+      handleError(
+        handleSuccess(sendGetRequest(url)).then((res) => {
+          let categories = res.data.categories;
+          this.setState({
+            categories: categories,
+            filteredCategories: categories,
+          });
+        })
+      )
     );
   }
   getFilteredCategories() {
@@ -59,10 +65,12 @@ class EmployeeDashboard extends Component {
       {q},
       {place}
     );
-    handleError(
-      handleSuccess(sendGetRequest(url)).then((res) => {
-        this.setState({filteredCategories: res.data.categories});
-      })
+    trackPromise(
+      handleError(
+        handleSuccess(sendGetRequest(url)).then((res) => {
+          this.setState({filteredCategories: res.data.categories});
+        })
+      )
     );
   }
 
@@ -115,55 +123,66 @@ class EmployeeDashboard extends Component {
   handleSale = (payment) => {
     const {cartItems} = this.state;
     const currentUser = getFromLocal('currentUser');
-    handleError(
-      handleSuccess(
-        sendPostRequest('sales', {
-          ...payment,
-          sold_by: `${currentUser.id}`,
-          sold_goods: cartItems.length,
-        }).then((res) => {
-          let saleResp = res.data.sale;
-          this.setState({
-            payment: {
-              ...saleResp,
-              sold_by_text: `${currentUser.firstname} ${currentUser.lastname}`,
-            },
-          });
-          let goods = [];
-          let quantities = [];
-          let measures = [];
-          let prices = [];
 
-          cartItems.forEach((item) => {
-            goods.push(item.id);
-            quantities.push(parseInt(item.quantity));
-            measures.push(
-              getFormattedMeasure(item.price.unit, item.price.measure)
+    trackPromise(
+      handleError(
+        handleSuccess(
+          sendPostRequest('sales', {
+            ...payment,
+            sold_by: `${currentUser.id}`,
+            sold_goods: cartItems.length,
+          }).then((res) => {
+            let saleResp = res.data.sale;
+            this.setState({
+              payment: {
+                ...saleResp,
+                sold_by_text: `${currentUser.firstname} ${currentUser.lastname}`,
+              },
+            });
+            let goods = [];
+            let quantities = [];
+            let measures = [];
+            let prices = [];
+
+            cartItems.forEach((item) => {
+              goods.push(item.id);
+              quantities.push(parseInt(item.quantity));
+              measures.push(
+                getFormattedMeasure(item.price.unit, item.price.measure)
+              );
+              prices.push(`Ksh ${item.price.amount}`);
+            });
+
+            trackPromise(
+              handleError(
+                handleSuccess(
+                  sendPostRequest('sales/history', {
+                    goods,
+                    quantities,
+                    prices,
+                    measures,
+                    sale_id: saleResp.id,
+                  }),
+                  'Sale made successfully'
+                ).then((res) => {
+                  this.printReceipt();
+                })
+              )
             );
-            prices.push(`Ksh ${item.price.amount}`);
-          });
-
-          handleError(
-            handleSuccess(
-              sendPostRequest('sales/history', {
-                goods,
-                quantities,
-                prices,
-                measures,
-                sale_id: saleResp.id,
-              }),
-              'Sale made successfully'
-            ).then((res) => {
-              this.printReceipt();
-            })
-          );
-        })
+          })
+        )
       )
     );
   };
 
   printReceipt = () => {
-    document.getElementById('trigger-print').click();
+    this.setState(
+      {payment: {...this.state.payment, title: 'Customer Bill'}},
+      () => {
+        document.getElementById('trigger-print').click();
+      }
+    );
+
     this.setState({
       selectedItem: {},
       cartItems: [],
@@ -193,6 +212,7 @@ class EmployeeDashboard extends Component {
             );
           }}
           content={() => this.receiptRef}
+          removeAfterPrint={true}
         />
         <div style={{display: 'none'}}>
           <ReceiptPrint

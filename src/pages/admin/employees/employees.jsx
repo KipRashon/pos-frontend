@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {trackPromise} from 'react-promise-tracker';
 import TableIcon from '../../../components/table-icon/table-icon';
 import {
   handleError,
@@ -19,11 +20,13 @@ class Employees extends Component {
     };
   }
   fetchEmployees() {
-    handleError(
-      handleSuccess(sendGetRequest('employees')).then((res) => {
-        let employees = res.data;
-        this.setState({employees});
-      })
+    trackPromise(
+      handleError(
+        handleSuccess(sendGetRequest('employees')).then((res) => {
+          let employees = res.data;
+          this.setState({employees});
+        })
+      )
     );
   }
 
@@ -36,11 +39,13 @@ class Employees extends Component {
   };
 
   onDelete = (employee) => {
-    handleError(
-      handleSuccess(
-        sendPostRequest(`employees/${employee.id}/delete`),
-        'Employee deleted successfully'
-      ).then((res) => this.fetchEmployees())
+    trackPromise(
+      handleError(
+        handleSuccess(
+          sendPostRequest(`employees/${employee.id}/delete`),
+          'Employee deleted successfully'
+        ).then((res) => this.fetchEmployees())
+      )
     );
   };
   render() {

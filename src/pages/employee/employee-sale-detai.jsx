@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {trackPromise} from 'react-promise-tracker';
 import {
   sendGetRequest,
   handleError,
@@ -15,13 +16,15 @@ function EmployeeSaleDetail(props) {
   useEffect(() => {
     let url = formatUrl('sales/history', {sale_id: saleId});
 
-    handleError(
-      handleSuccess(sendGetRequest(url)).then((res) => {
-        let sale = res.data.sale[0];
-        let history = res.data.history;
-        setSale(sale);
-        setHistory(history);
-      })
+    trackPromise(
+      handleError(
+        handleSuccess(sendGetRequest(url)).then((res) => {
+          let sale = res.data.sale[0];
+          let history = res.data.history;
+          setSale(sale);
+          setHistory(history);
+        })
+      )
     );
   }, []);
   return (

@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {trackPromise} from 'react-promise-tracker';
 import {toast} from 'react-toastify';
 import Modal from '../../../components/modal/modal';
 import {
@@ -28,13 +29,15 @@ function AddAdmin(props) {
     } else if (objetPropEmpty(admin)) {
       toast.error('Do not leave fields empty');
     } else {
-      handleError(
-        handleSuccess(
-          sendPostRequest('admins', admin),
-          'Admin added successfully'
-        ).then((res) => {
-          handleClose();
-        })
+      trackPromise(
+        handleError(
+          handleSuccess(
+            sendPostRequest('admins', admin),
+            'Admin added successfully'
+          ).then((res) => {
+            handleClose();
+          })
+        )
       );
     }
   };

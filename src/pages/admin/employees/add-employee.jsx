@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {trackPromise} from 'react-promise-tracker';
 
 import {toast} from 'react-toastify';
 import Modal from '../../../components/modal/modal';
@@ -29,13 +30,15 @@ function AddEmployee(props) {
     } else if (objetPropEmpty(admin)) {
       toast.error('Do not leave fields empty');
     } else {
-      handleError(
-        handleSuccess(
-          sendPostRequest('employees', admin),
-          'Employee added successfully'
-        ).then((res) => {
-          handleClose();
-        })
+      trackPromise(
+        handleError(
+          handleSuccess(
+            sendPostRequest('employees', admin),
+            'Employee added successfully'
+          ).then((res) => {
+            handleClose();
+          })
+        )
       );
     }
   };

@@ -1,4 +1,5 @@
 import React, {Component, useState} from 'react';
+import {trackPromise} from 'react-promise-tracker';
 import {Link} from 'react-router-dom';
 import Modal from '../../../components/modal/modal';
 import TableIcon from '../../../components/table-icon/table-icon';
@@ -26,12 +27,14 @@ class Goods extends Component {
 
   fetchProducts() {
     let categoryId = this.props.match.params.id;
-    handleError(
-      handleSuccess(sendGetRequest(`products?category=${categoryId}`)).then(
-        (res) => {
-          let products = res.data;
-          this.setState({products});
-        }
+    trackPromise(
+      handleError(
+        handleSuccess(sendGetRequest(`products?category=${categoryId}`)).then(
+          (res) => {
+            let products = res.data;
+            this.setState({products});
+          }
+        )
       )
     );
   }
@@ -39,11 +42,13 @@ class Goods extends Component {
     this.setState({showAddProduct});
   };
   onDelete = (good) => {
-    handleError(
-      handleSuccess(
-        sendPostRequest(`products/${good.id}/delete`),
-        'Product deleted successfully'
-      ).then((res) => this.fetchProducts())
+    trackPromise(
+      handleError(
+        handleSuccess(
+          sendPostRequest(`products/${good.id}/delete`),
+          'Product deleted successfully'
+        ).then((res) => this.fetchProducts())
+      )
     );
   };
   render() {
@@ -120,11 +125,13 @@ function AddProduct(props) {
   const [product, setProduct] = useState({});
 
   const onSave = () => {
-    handleError(
-      handleSuccess(
-        sendPostRequest('products', {...product, category}),
-        'Product added successfully'
-      ).then((res) => handleClose())
+    trackPromise(
+      handleError(
+        handleSuccess(
+          sendPostRequest('products', {...product, category}),
+          'Product added successfully'
+        ).then((res) => handleClose())
+      )
     );
   };
   return (
