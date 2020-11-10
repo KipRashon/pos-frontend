@@ -1,8 +1,8 @@
 import axios from 'axios';
 import {toast} from 'react-toastify';
+import {API_URL} from './api-const';
 let API = axios.create({
-  // baseURL: 'http://127.0.0.1:8000/api/',
-  baseURL: 'https://posbackend.sk.co.ke/api',
+  baseURL: API_URL,
 });
 
 export function showNotification(title, color, position) {

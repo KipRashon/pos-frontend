@@ -65,12 +65,10 @@ class EmployeeDashboard extends Component {
       {q},
       {place}
     );
-    trackPromise(
-      handleError(
-        handleSuccess(sendGetRequest(url)).then((res) => {
-          this.setState({filteredCategories: res.data.categories});
-        })
-      )
+    handleError(
+      handleSuccess(sendGetRequest(url)).then((res) => {
+        this.setState({filteredCategories: res.data.categories});
+      })
     );
   }
 
