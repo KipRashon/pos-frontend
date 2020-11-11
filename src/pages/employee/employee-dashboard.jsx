@@ -164,7 +164,7 @@ class EmployeeDashboard extends Component {
                   }),
                   'Sale made successfully'
                 ).then((res) => {
-                  this.setState({showPrint: true});
+                  this.setState({showPrint: true}, () => this.printReceipt());
                 })
               )
             );
