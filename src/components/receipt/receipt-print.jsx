@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {formatDate} from '../../services/utility';
 
 export default class ReceiptPrint extends Component {
+  componentDidMount() {
+    this.props.printReceipt();
+  }
   render() {
     const {payment, cartItems} = this.props;
     return (
