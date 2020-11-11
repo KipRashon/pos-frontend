@@ -32,6 +32,7 @@ class EmployeeDashboard extends Component {
       selectedItem: {},
       cartItems: [],
       payment: {},
+      showPrint: false,
     };
     this.receiptRef = React.createRef();
   }
@@ -163,7 +164,7 @@ class EmployeeDashboard extends Component {
                   }),
                   'Sale made successfully'
                 ).then((res) => {
-                  this.printReceipt();
+                  this.setState({showPrint: true}, () => this.printReceipt());
                 })
               )
             );
@@ -174,12 +175,7 @@ class EmployeeDashboard extends Component {
   };
 
   printReceipt = () => {
-    this.setState(
-      {payment: {...this.state.payment, title: 'Customer Bill'}},
-      () => {
-        document.getElementById('trigger-print').click();
-      }
-    );
+    document.getElementById('trigger-print').click();
   };
 
   render() {
@@ -190,37 +186,45 @@ class EmployeeDashboard extends Component {
       selectedItem,
       cartItems,
       payment,
+      showPrint,
     } = this.state;
+
+    if (showPrint) {
+      return (
+        <>
+          <ReactToPrint
+            trigger={() => {
+              // NOTE: could just as easily return <SomeComponent />. Do NOT pass an `onClick` prop
+              // to the root node of the returned component as it will be overwritten.
+              return (
+                <a href='#' className='d-none' id='trigger-print'>
+                  Print this out!
+                </a>
+              );
+            }}
+            content={() => this.receiptRef.current}
+            removeAfterPrint={true}
+            onAfterPrint={() => {
+              this.setState({
+                selectedItem: {},
+                cartItems: [],
+                payment: {},
+                showPrint: false,
+              });
+            }}
+          />
+          <div style={{display: 'none'}}>
+            <ReceiptPrint
+              ref={this.receiptRef}
+              cartItems={cartItems}
+              payment={payment}
+            />
+          </div>
+        </>
+      );
+    }
     return (
       <div className='container-fluid'>
-        <ReactToPrint
-          trigger={() => {
-            // NOTE: could just as easily return <SomeComponent />. Do NOT pass an `onClick` prop
-            // to the root node of the returned component as it will be overwritten.
-            return (
-              <a href='#' className='d-none' id='trigger-print'>
-                Print this out!
-              </a>
-            );
-          }}
-          content={() => this.receiptRef.current}
-          removeAfterPrint={true}
-          onAfterPrint={() => {
-            this.setState({
-              selectedItem: {},
-              cartItems: [],
-              payment: {},
-            });
-          }}
-        />
-        <div style={{display: 'none'}}>
-          <ReceiptPrint
-            ref={this.receiptRef}
-            cartItems={cartItems}
-            payment={payment}
-          />
-        </div>
-
         <div className='row'>
           <Header place={this.props.match.params.id} />
 
