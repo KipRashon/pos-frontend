@@ -174,10 +174,6 @@ class EmployeeDashboard extends Component {
     );
   };
 
-  printReceipt = () => {
-    document.getElementById('trigger-print').click();
-  };
-
   render() {
     const {
       categories,
@@ -192,18 +188,10 @@ class EmployeeDashboard extends Component {
     if (showPrint) {
       return (
         <>
-          <ReactToPrint
-            trigger={() => {
-              // NOTE: could just as easily return <SomeComponent />. Do NOT pass an `onClick` prop
-              // to the root node of the returned component as it will be overwritten.
-              return (
-                <a href='#' className='d-none' id='trigger-print'>
-                  Print this out!
-                </a>
-              );
-            }}
-            content={() => this.receiptRef.current}
-            removeAfterPrint={true}
+          <ReceiptPrint
+            cartItems={cartItems}
+            payment={payment}
+            printReceipt={this.printReceipt}
             onAfterPrint={() => {
               this.setState({
                 selectedItem: {},
@@ -212,12 +200,6 @@ class EmployeeDashboard extends Component {
                 showPrint: false,
               });
             }}
-          />
-          <ReceiptPrint
-            ref={this.receiptRef}
-            cartItems={cartItems}
-            payment={payment}
-            printReceipt={this.printReceipt}
           />
         </>
       );
