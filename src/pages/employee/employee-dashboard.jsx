@@ -16,7 +16,7 @@ import {
   getFromLocal,
 } from '../../services/utility';
 import './employee.scss';
-import ReactToPrint from 'react-to-print';
+import ReactToPrint from 'react-to-print-advanced';
 import ReceiptPrint from '../../components/receipt/receipt-print';
 import withEmployeeValidation from './with-employee-validation';
 import {trackPromise} from 'react-promise-tracker';
@@ -180,12 +180,6 @@ class EmployeeDashboard extends Component {
         document.getElementById('trigger-print').click();
       }
     );
-
-    this.setState({
-      selectedItem: {},
-      cartItems: [],
-      payment: {},
-    });
   };
 
   render() {
@@ -209,12 +203,19 @@ class EmployeeDashboard extends Component {
               </a>
             );
           }}
-          content={() => this.receiptRef}
+          content={() => this.receiptRef.current}
           removeAfterPrint={true}
+          onAfterPrint={() => {
+            this.setState({
+              selectedItem: {},
+              cartItems: [],
+              payment: {},
+            });
+          }}
         />
         <div style={{display: 'none'}}>
           <ReceiptPrint
-            ref={(el) => (this.receiptRef = el)}
+            ref={this.receiptRef}
             cartItems={cartItems}
             payment={payment}
           />
