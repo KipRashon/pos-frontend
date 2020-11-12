@@ -9,7 +9,7 @@ export default function ReceiptPrint(props) {
     onAfterPrint();
   };
   return (
-    <div className='container-fluid '>
+    <div className='container-fluid show-print'>
       <div className='card'>
         <div className='card-header row justify-content-end hidden-print'>
           <button className='btn btn-primary' onClick={handlePrint}>

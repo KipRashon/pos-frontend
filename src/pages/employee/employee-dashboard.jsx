@@ -186,25 +186,23 @@ class EmployeeDashboard extends Component {
 
     if (showPrint) {
       return (
-        <>
-          <ReceiptPrint
-            cartItems={cartItems}
-            payment={payment}
-            printReceipt={this.printReceipt}
-            onAfterPrint={() => {
-              this.setState({
-                selectedItem: {},
-                cartItems: [],
-                payment: {},
-                showPrint: false,
-              });
-            }}
-          />
-        </>
+        <ReceiptPrint
+          cartItems={cartItems}
+          payment={payment}
+          printReceipt={this.printReceipt}
+          onAfterPrint={() => {
+            this.setState({
+              selectedItem: {},
+              cartItems: [],
+              payment: {},
+              showPrint: false,
+            });
+          }}
+        />
       );
     }
     return (
-      <div className='container-fluid'>
+      <div className='container-fluid hidden-print'>
         <div className='row'>
           <Header place={this.props.match.params.id} />
 

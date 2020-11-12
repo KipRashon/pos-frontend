@@ -36,4 +36,9 @@
   .hidden-print * {
     display: none !important;
   }
+
+  .show-print,
+  .show-print * {
+    display: block !important;
+  }
 }
