@@ -27,6 +27,7 @@ export default class ReceiptPrint extends Component {
           content={() => this.receiptRef.current}
           removeAfterPrint={true}
           onAfterPrint={onAfterPrint}
+          delay={1000}
         />
         <div ref={this.receiptRef}>
           <ReceiptItem {...this.props} />
