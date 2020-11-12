@@ -62,7 +62,10 @@ export default function ReceiptPrint(props) {
         </div>
         <div className='card-body p-0'>
           <div className='table-responsive'>
-            <table className='table table-striped table-bordered'>
+            <table
+              className='table table-striped '
+              style={{border: '1px solid #000'}}
+            >
               <thead className='thead-dark'>
                 <th>Item Name</th>
                 <th>Qty</th>
