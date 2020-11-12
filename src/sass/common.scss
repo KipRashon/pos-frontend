@@ -31,3 +31,9 @@
   color: #fff;
   background-color: #000;
 }
+@media print {
+  .hidden-print,
+  .hidden-print * {
+    display: none !important;
+  }
+}

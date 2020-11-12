@@ -16,7 +16,6 @@ import {
   getFromLocal,
 } from '../../services/utility';
 import './employee.scss';
-import ReactToPrint from 'react-to-print-advanced';
 import ReceiptPrint from '../../components/receipt/receipt-print';
 import withEmployeeValidation from './with-employee-validation';
 import {trackPromise} from 'react-promise-tracker';

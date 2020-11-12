@@ -1,47 +1,21 @@
-import React, {Component} from 'react';
-import ReactToPrint from 'react-to-print-advanced';
+import React from 'react';
 import {formatDate} from '../../services/utility';
 
-export default class ReceiptPrint extends Component {
-  constructor(props) {
-    super(props);
-    this.receiptRef = React.createRef();
-  }
-  componentDidMount() {
-    document.getElementById('trigger-print').click();
-  }
-  render() {
-    const {onAfterPrint} = this.props;
-    return (
-      <>
-        <ReactToPrint
-          trigger={() => {
-            // NOTE: could just as easily return <SomeComponent />. Do NOT pass an `onClick` prop
-            // to the root node of the returned component as it will be overwritten.
-            return (
-              <button className='d-none' id='trigger-print'>
-                Print this out!
-              </button>
-            );
-          }}
-          content={() => this.receiptRef.current}
-          removeAfterPrint={true}
-          onAfterPrint={onAfterPrint}
-          delay={1000}
-        />
-        <div ref={this.receiptRef}>
-          <ReceiptItem {...this.props} />
-        </div>
-      </>
-    );
-  }
-}
+export default function ReceiptPrint(props) {
+  const {payment, cartItems, onAfterPrint} = props;
 
-function ReceiptItem(props) {
-  const {payment, cartItems} = props;
+  const handlePrint = () => {
+    window.print();
+    onAfterPrint();
+  };
   return (
     <div className='container-fluid '>
       <div className='card'>
+        <div className='card-header row justify-content-end hidden-print'>
+          <button className='btn btn-primary' onClick={handlePrint}>
+            Confirm Print
+          </button>
+        </div>
         <div className='mb-1'>
           <hr />
           <p className='text-center'>
