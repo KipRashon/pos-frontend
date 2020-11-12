@@ -9,7 +9,12 @@ export default function ReceiptPrint(props) {
     onAfterPrint();
   };
   return (
-    <div className='container-fluid '>
+    <div
+      className='container-fluid '
+      style={{
+        fontWeight: 'bolder',
+      }}
+    >
       <div className='card'>
         <div className='card-header row justify-content-end hidden-print'>
           <button className='btn btn-primary' onClick={handlePrint}>
@@ -30,7 +35,7 @@ export default function ReceiptPrint(props) {
             {formatDate(payment.created_at)}
           </p>
           <p className='text-center '>
-            <small className='text-secondary'>
+            <small className='text-dark'>
               P.O.BOX 102358-00101 NRB TELEPHONE: 0791 482 995/0756936852
             </small>
           </p>
@@ -42,14 +47,13 @@ export default function ReceiptPrint(props) {
             </div>
             <div className='col'>
               <p className='text-dark'>
-                <span className='text-secondary'>Buy Goods till</span>:{' '}
-                {'4028177'}
+                <span className='text-dark'>Buy Goods till</span>: {'4028177'}
               </p>
             </div>
             {payment.transaction_code ? (
               <div className='col'>
                 <p className='text-dark'>
-                  <span className='text-secondary'>Reference Number</span>:
+                  <span className='text-dark'>Reference Number</span>:
                   {payment.transaction_code}
                 </p>
               </div>
@@ -81,16 +85,18 @@ export default function ReceiptPrint(props) {
             className='mt-1 pl-4 pr-4  border-dark mb-1 '
             style={{borderStyle: 'dotted'}}
           >
-            <div className=' row justify-content-between'>
+            <div className=' row justify-content-between text-dark'>
               <span className='text-uppercase'>Total Amount</span>
               <span>{payment.total}</span>
             </div>
-            <div className=' row justify-content-between'>
-              <span className='text-uppercase'>{payment.payment_method}</span>
+            <div className=' row justify-content-between text-dark'>
+              <span className='text-uppercase text-dark'>
+                {payment.payment_method}
+              </span>
               <span>{'Ksh ' + payment.customer_pay}</span>
             </div>
-            <div className=' row justify-content-between'>
-              <span className='text-uppercase'>Change</span>
+            <div className=' row justify-content-between text-dark'>
+              <span className='text-uppercase text-dark'>Change</span>
               <span>{'Ksh ' + payment.customer_change}</span>
             </div>
           </div>
@@ -99,12 +105,12 @@ export default function ReceiptPrint(props) {
           </div>
         </div>
         <div className='card-footer p-0'>
-          <p className='text-center text-uppercase text-secondary'>
+          <p className='text-center text-uppercase text-dark'>
             <small>
               FOLLOW US ON ig@scratchkitchen for COMPLAINTS AND FEEDBACK
             </small>
           </p>
-          <p className='text-center text-uppercase text-secondary'>
+          <p className='text-center text-uppercase text-dark'>
             <small> askscratchkitchen@gmail.com</small>
           </p>
         </div>
