@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {showNotification} from '../../services/api-handle';
 import {payment_methods} from '../../services/constants';
 import {getFormattedAmount, getFormattedMeasure} from '../../services/utility';
 
@@ -10,6 +11,14 @@ function Receipt(props) {
     if (cartItems.length) {
       let amount = 0;
       cartItems.forEach((item) => {
+        if (useOnlinePrice && !item.price.online_price) {
+          showNotification(
+            'This good does not have online price. please add',
+            'error'
+          );
+          setUseOnlinePrice(false);
+          return;
+        }
         amount +=
           (useOnlinePrice ? item.price.online_price : item.price.amount) *
           item.quantity;
