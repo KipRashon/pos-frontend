@@ -4,12 +4,15 @@ import {getFormattedAmount, getFormattedMeasure} from '../../services/utility';
 
 function Receipt(props) {
   const {cartItems, removeFromCart, handleSale} = props;
+  const [useOnlinePrice, setUseOnlinePrice] = useState(false);
 
   const getRawTotalAmount = () => {
     if (cartItems.length) {
       let amount = 0;
       cartItems.forEach((item) => {
-        amount += item.price.amount * item.quantity;
+        amount +=
+          (useOnlinePrice ? item.price.online_price : item.price.amount) *
+          item.quantity;
       });
       return amount;
     }
@@ -25,6 +28,19 @@ function Receipt(props) {
     total: getTotalAmount(),
   });
 
+  const checkIfUseOnline = (method) => {
+    let methods = [...payment_methods];
+    const removeFromArray = (item, arr) => {
+      return arr.filter((it) => it !== item);
+    };
+
+    methods = removeFromArray(
+      'Mpesa',
+      removeFromArray('Cash', removeFromArray('Card', methods))
+    );
+    return methods.includes(method);
+  };
+
   return (
     <div className='card bg-transparent border-0'>
       <h4 className='text-uppercase text-center mb-3'>Receipt</h4>
@@ -33,6 +49,7 @@ function Receipt(props) {
           key={item.id + item.price.amount}
           item={item}
           removeFromCart={removeFromCart}
+          useOnlinePrice={useOnlinePrice}
         />
       ))}
       <hr />
@@ -44,12 +61,16 @@ function Receipt(props) {
             id=''
             className='form-control'
             value={payment.payment_method}
-            onChange={(e) =>
+            onChange={(e) => {
+              let payment_method = e.target.value;
               setPayment({
                 ...payment,
-                payment_method: e.target.value,
-              })
-            }
+                payment_method,
+              });
+
+              let useOnline = checkIfUseOnline(payment_method);
+              setUseOnlinePrice(useOnline);
+            }}
           >
             {payment_methods.map((method) => (
               <option value={method} key={method}>
@@ -112,7 +133,23 @@ function Receipt(props) {
 }
 
 function Item(props) {
-  const {item, removeFromCart} = props;
+  const {item, removeFromCart, useOnlinePrice} = props;
+  const [itemPrice, setItemPrice] = useState('Ksh 0');
+
+  useEffect(() => {
+    setItemPrice(
+      getFormattedAmount(
+        useOnlinePrice ? item.price.online_price : item.price.amount,
+        item.quantity
+      )
+    );
+  }, [
+    item.quantity,
+    item.price.online_price,
+    item.price.amount,
+    useOnlinePrice,
+  ]);
+
   return (
     <div className='item p-2  mb-2'>
       <div className='row'>
@@ -121,9 +158,7 @@ function Item(props) {
           {getFormattedMeasure(item.price.unit, item.price.measure)}
         </div>
         <div className='col text-center'>{item.quantity}</div>
-        <div className='col text-center'>
-          {getFormattedAmount(item.price.amount, item.quantity)}
-        </div>
+        <div className='col text-center'>{itemPrice}</div>
         <div
           className='col text-right link'
           onClick={() => removeFromCart(item)}

@@ -19,6 +19,7 @@ class Goods extends Component {
     this.state = {
       showAddProduct: false,
       products: [],
+      category: {},
     };
   }
   componentDidMount() {
@@ -31,8 +32,8 @@ class Goods extends Component {
       handleError(
         handleSuccess(sendGetRequest(`products?category=${categoryId}`)).then(
           (res) => {
-            let products = res.data;
-            this.setState({products});
+            let {products, category} = res.data;
+            this.setState({products, category});
           }
         )
       )
@@ -52,7 +53,7 @@ class Goods extends Component {
     );
   };
   render() {
-    const {showAddProduct, products} = this.state;
+    const {showAddProduct, products, category} = this.state;
     return (
       <div className='mt-3'>
         {showAddProduct && (
@@ -64,7 +65,7 @@ class Goods extends Component {
             category={this.props.match.params.id}
           />
         )}
-        <h2>Products </h2>
+        <h2>{`Products (${category.name})`}</h2>
         <div className='w-100 row justify-content-end mb-2'>
           <button
             className='btn btn-info'

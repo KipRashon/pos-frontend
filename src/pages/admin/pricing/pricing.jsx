@@ -21,6 +21,7 @@ class Pricing extends Component {
     this.state = {
       pricings: [],
       selectedPricing: {},
+      good: {},
     };
   }
 
@@ -36,7 +37,8 @@ class Pricing extends Component {
       handleError(
         handleSuccess(sendGetRequest('pricings?good=' + goodId)).then((res) => {
           let pricings = res.data.pricings;
-          this.setState({pricings});
+          let good = res.data.good;
+          this.setState({pricings, good});
         })
       )
     );
@@ -92,10 +94,10 @@ class Pricing extends Component {
     );
   };
   render() {
-    const {pricings, selectedPricing} = this.state;
+    const {pricings, selectedPricing, good} = this.state;
     return (
       <div className='mt-3'>
-        <h2>Pricing </h2>
+        <h2>{`Pricing (${good.name})`} </h2>
         <div className='card'>
           <div className='card-body'>
             <div className='row'>
@@ -130,7 +132,7 @@ class Pricing extends Component {
                 />
               </div>
               <div className='form-group ml-1'>
-                <label htmlFor=''>Cost</label>
+                <label htmlFor=''>Retail Price</label>
                 <input
                   type='text'
                   className='form-control'
@@ -138,6 +140,18 @@ class Pricing extends Component {
                   value={selectedPricing.amount}
                   onChange={(e) =>
                     this.updatePropChange({amount: e.target.value})
+                  }
+                />
+              </div>
+              <div className='form-group ml-1'>
+                <label htmlFor=''>Online Price</label>
+                <input
+                  type='text'
+                  className='form-control'
+                  placeholder=' Eg 400'
+                  value={selectedPricing.online_price}
+                  onChange={(e) =>
+                    this.updatePropChange({online_price: e.target.value})
                   }
                 />
               </div>
@@ -161,23 +175,21 @@ class Pricing extends Component {
                   <tr>
                     <th>#</th>
                     <th>Measure</th>
-                    <th>Price</th>
+                    <th>Retail Price</th>
+                    <th>Online Price</th>
                     <th>Created</th>
                     <th>Updated</th>
                   </tr>
                 </thead>
                 <tbody>
                   {pricings.map((pricing, index) => (
-                    <tr
-                      key={pricing.id}
-                      className='link'
-                      onClick={() => this.showEditPricing(pricing)}
-                    >
+                    <tr key={pricing.id} className='link'>
                       <td>{++index}</td>
                       <td>
                         {getFormattedMeasure(pricing.unit, pricing.measure)}
                       </td>
                       <td>{'Ksh ' + pricing.amount}</td>
+                      <td>{'Ksh ' + pricing.online_price}</td>
                       <td>
                         <span title={formatDate(pricing.created_at)}>
                           {getDateTimeAgo(pricing.created_at)}
@@ -189,9 +201,16 @@ class Pricing extends Component {
                         </span>
                       </td>
                       <td>
-                        <TableIcon onClick={() => this.onDelete(pricing)}>
-                          <i className='fa fa-trash'></i>
-                        </TableIcon>
+                        <div className='d-flex justify-content-around w-75'>
+                          <TableIcon onClick={() => this.onDelete(pricing)}>
+                            <i className='fa fa-trash'></i>
+                          </TableIcon>
+                          <TableIcon
+                            onClick={() => this.showEditPricing(pricing)}
+                          >
+                            <i className='fa fa-edit'></i>
+                          </TableIcon>
+                        </div>
                       </td>
                     </tr>
                   ))}
