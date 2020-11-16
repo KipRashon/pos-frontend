@@ -36,7 +36,7 @@ export default function ReceiptPrint(props) {
           </p>
           <p className='text-center '>
             <small className='text-dark'>
-              P.O.BOX 102358-00101 NRB TELEPHONE: 0791 482 995/0756936852
+              <b>P.O.BOX 102358-00101 NRB TELEPHONE: 0791 482 995/0756936852</b>
             </small>
           </p>
           <div className='border-bottom border-top border-secondary  row'>
@@ -63,10 +63,10 @@ export default function ReceiptPrint(props) {
         <div className='card-body p-0'>
           <div className='table-responsive'>
             <table
-              className='table table-striped '
+              className='table table-bordered  border-darken-4'
               style={{border: '1px solid #000'}}
             >
-              <thead className='thead-dark'>
+              <thead>
                 <th>Item Name</th>
                 <th>Qty</th>
                 <th>Price</th>
@@ -75,10 +75,12 @@ export default function ReceiptPrint(props) {
               <tbody>
                 {cartItems.map((item) => (
                   <tr key={item.id}>
-                    <td>{item.name}</td>
-                    <td>{item.quantity}</td>
-                    <td>{item.price.amount}</td>
-                    <td>{item.price.amount * item.quantity}</td>
+                    <td className='font-weight-bolder'>{item.name}</td>
+                    <td className='font-weight-bolder'>{item.quantity}</td>
+                    <td className='font-weight-bolder'>{item.price.amount}</td>
+                    <td className='font-weight-bolder'>
+                      {item.price.amount * item.quantity}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -110,11 +112,13 @@ export default function ReceiptPrint(props) {
         <div className='card-footer p-0'>
           <p className='text-center text-uppercase text-dark'>
             <small>
-              FOLLOW US ON ig@scratchkitchen for COMPLAINTS AND FEEDBACK
+              <b>FOLLOW US ON ig@scratchkitchen for COMPLAINTS AND FEEDBACK</b>
             </small>
           </p>
           <p className='text-center text-uppercase text-dark'>
-            <small> askscratchkitchen@gmail.com</small>
+            <small>
+              <b> askscratchkitchen@gmail.com</b>
+            </small>
           </p>
         </div>
       </div>
