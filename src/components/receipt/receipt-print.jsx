@@ -106,7 +106,9 @@ export default function ReceiptPrint(props) {
             </div>
           </div>
           <div className='mt-2'>
-            <h6 className='text-center'>SERVED BY {payment.sold_by_text}</h6>
+            <h6 className='text-center font-weight-bolder'>
+              SERVED BY {payment.sold_by_text}
+            </h6>
           </div>
         </div>
         <div className='card-footer p-0'>

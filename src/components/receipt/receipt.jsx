@@ -11,17 +11,20 @@ function Receipt(props) {
     if (cartItems.length) {
       let amount = 0;
       cartItems.forEach((item) => {
-        if (useOnlinePrice && !item.price.online_price) {
+        if (useOnlinePrice && parseInt(item.price.online_price) === 0) {
           showNotification(
             'This good does not have online price. please add',
-            'error'
+            'error',
+            null,
+            'no-duplicate'
           );
           setUseOnlinePrice(false);
           return;
         }
         amount +=
-          (useOnlinePrice ? item.price.online_price : item.price.amount) *
-          item.quantity;
+          (useOnlinePrice
+            ? parseInt(item.price.online_price)
+            : item.price.amount) * item.quantity;
       });
       return amount;
     }

@@ -5,13 +5,13 @@ let API = axios.create({
   baseURL: API_URL,
 });
 
-export function showNotification(title, color, position) {
+export function showNotification(title, color, position, toastId) {
   if (color === 'success') {
-    toast.success(title, {position: position || 'top-right'});
+    toast.success(title, {position: position || 'top-right', toastId});
   } else if (color === 'warning') {
-    toast.warn(title, {position: position || 'top-right'});
+    toast.warn(title, {position: position || 'top-right', toastId});
   } else {
-    toast.error(title, {position: position || 'top-right'});
+    toast.error(title, {position: position || 'top-right', toastId});
   }
 }
 export function sendPostRequest(url, params) {
