@@ -10,106 +10,70 @@ export default function ReceiptPrint(props) {
     onAfterPrint();
   };
   return (
-    <div className='container-fluid row justify-content-center'>
-      <div id='invoice-POS' className='col-12'>
-        <center id='top'>
-          <div class='info'>
-            <h2>Scratch Kitchen</h2>
-          </div>
-        </center>
+    <div className='container'>
+      <div class='ticket'>
+        <p class='centered'>
+          SCRATCH KITCHEN LTD
+          <br />
+          CUSTOMER BILL
+          <br />
+          {formatDate(payment.created_at)}
+          <br />
+          <small>
+            <b>P.O.BOX 102358-00101 NRB TELEPHONE: 0791 482 995/0756936852</b>
+          </small>
+          <br />
+          Till No. - {'4028177'}
+        </p>
+        <table className='table'>
+          <thead>
+            <tr>
+              <th class='description'>Good</th>
+              <th class='quantity'>Q.</th>
+              <th class='price1 centered'>@</th>
+              <th class='price2'>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {cartItems.map((item) => (
+              <tr>
+                <td className='description'>{item.name}</td>
+                <td className='quantity'>{item.quantity}</td>
+                <td className='price1 centered'>{item.price.amount}</td>
+                <td className='price2 centered'>
+                  {item.price.amount * item.quantity}
+                </td>
+              </tr>
+            ))}
 
-        <div id='mid' className='text-center'>
-          <div class='info'>
-            <h2>Scratch Kitchen</h2>
-            <p className='font-weight-bold'>
-              Address : P.O.BOX 102358-00101
-              <br />
-              Email : askscratchkitchen@gmail.com /ig@scratchkitchen <br />
-              Phone : 0791 482 995/0756936852
-              <br />
-              Till: 4028177
-            </p>
-          </div>
-        </div>
-
-        <div id='bot'>
-          <div id='table'>
-            <table>
-              <thead>
-                <tr class='tabletitle'>
-                  <th class='item'>
-                    <h2>Item</h2>
-                  </th>
-                  <th class='Hours'>
-                    <h2>Qty</h2>
-                  </th>
-                  <th class='Rate'>
-                    <h2>Sub Total</h2>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {cartItems.map((item) => (
-                  <tr class='service' key={item.id}>
-                    <td class='tableitem'>
-                      <p class='itemtext'>{item.name}</p>
-                    </td>
-                    <td class='tableitem'>
-                      <p class='itemtext'>{item.quantity}</p>
-                    </td>
-                    <td class='tableitem'>
-                      <p class='itemtext'>
-                        {item.price.amount * item.quantity}
-                      </p>
-                    </td>
-                  </tr>
-                ))}
-                <tr class='tabletitle'>
-                  <td></td>
-                  <td class='Rate'>
-                    <h2>Customer Pay</h2>
-                  </td>
-                  <td class='payment'>
-                    <h2>{'Ksh ' + payment.customer_pay}</h2>
-                  </td>
-                </tr>
-                <tr class='tabletitle'>
-                  <td></td>
-                  <td class='Rate'>
-                    <h2>Customer Change</h2>
-                  </td>
-                  <td class='payment'>
-                    <h2>{'Ksh ' + payment.customer_change}</h2>
-                  </td>
-                </tr>
-                <tr class='tabletitle'>
-                  <td></td>
-                  <td class='Rate'>
-                    <h2>Total</h2>
-                  </td>
-                  <td class='payment'>
-                    <h2>{payment.total}</h2>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div
-            id='legalcopy '
-            className='border-bottom border-dark text-center'
-          >
-            <p class='legal'>
-              <strong>Served by</strong> <strong>{payment.sold_by_text}</strong>
-            </p>
-            <p class='legal'>
-              <strong>Thank you for your business!</strong> 
-              <strong>Follow use on ig@scratchkitchen</strong>
-              <br />
-              {formatDate(payment.created_at)}
-            </p>
-          </div>
-        </div>
+            <tr>
+              <td></td>
+              <td></td>
+              <td className='centered'>Total Amount</td>
+              <td className='centered'>{payment.total}</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td className='centered'>{payment.payment_method}</td>
+              <td className='centered'>{'Ksh ' + payment.customer_pay}</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td className='centered'>Customer Change</td>
+              <td className='centered'>{'Ksh ' + payment.customer_change}</td>
+            </tr>
+          </tbody>
+        </table>
+        <h6 className='text-center font-weight-bolder text-uppercase'>
+          SERVED BY {payment.sold_by_text}
+        </h6>
+        <p class='centered border-top border-dark' style={{fontSize: '12px'}}>
+          Thanks for your purchase!
+          <br />
+          askscratchkitchen@gmail.com /ig@scratchkitchen
+        </p>
       </div>
       <div className='w-100 row justify-content-end hidden-print fixed-bottom'>
         <button className='btn btn-primary' onClick={handlePrint}>
