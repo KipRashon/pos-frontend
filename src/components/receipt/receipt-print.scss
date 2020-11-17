@@ -1,33 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap');
+
 #invoice-POS {
   box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
   padding: 2mm;
   margin: 0 auto;
   width: 44mm;
   background: #fff;
+  font-family: 'Oswald', 'Times New Roman', Times, serif;
+  font-weight: 700;
 
   ::selection {
     background: #f31544;
-    color: #fff;
+    color: #000;
   }
   ::moz-selection {
     background: #f31544;
-    color: #fff;
+    color: #000;
   }
   h1 {
     font-size: 1.5em;
-    color: #222;
+    color: #000;
   }
   h2 {
     font-size: 0.9em;
   }
   h3 {
     font-size: 1.2em;
-    font-weight: 300;
     line-height: 2em;
   }
   p {
     font-size: 0.7em;
-    color: #666;
+    color: #000;
     line-height: 1.2em;
   }
 
@@ -90,7 +93,7 @@
   }
   .service {
     border-bottom: 1px solid #eee;
-    font-weight: bold;
+    font-weight: bolder;
   }
   .item {
     width: 24mm;

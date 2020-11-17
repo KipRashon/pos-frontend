@@ -18,7 +18,7 @@ export default function ReceiptPrint(props) {
           </div>
         </center>
 
-        <div id='mid'>
+        <div id='mid' className='text-center'>
           <div class='info'>
             <h2>Scratch Kitchen</h2>
             <p className='font-weight-bold'>
@@ -27,6 +27,7 @@ export default function ReceiptPrint(props) {
               Email : askscratchkitchen@gmail.com /ig@scratchkitchen <br />
               Phone : 0791 482 995/0756936852
               <br />
+              Till: 4028177
             </p>
           </div>
         </div>
@@ -34,104 +35,78 @@ export default function ReceiptPrint(props) {
         <div id='bot'>
           <div id='table'>
             <table>
-              <tr class='tabletitle'>
-                <td class='item'>
-                  <h2>Item</h2>
-                </td>
-                <td class='Hours'>
-                  <h2>Qty</h2>
-                </td>
-                <td class='Rate'>
-                  <h2>Sub Total</h2>
-                </td>
-              </tr>
-
-              <tr class='service'>
-                <td class='tableitem'>
-                  <p class='itemtext'>Communication</p>
-                </td>
-                <td class='tableitem'>
-                  <p class='itemtext'>5</p>
-                </td>
-                <td class='tableitem'>
-                  <p class='itemtext'>$375.00</p>
-                </td>
-              </tr>
-
-              <tr class='service'>
-                <td class='tableitem'>
-                  <p class='itemtext'>Asset Gathering</p>
-                </td>
-                <td class='tableitem'>
-                  <p class='itemtext'>3</p>
-                </td>
-                <td class='tableitem'>
-                  <p class='itemtext'>$225.00</p>
-                </td>
-              </tr>
-
-              <tr class='service'>
-                <td class='tableitem'>
-                  <p class='itemtext'>Design Development</p>
-                </td>
-                <td class='tableitem'>
-                  <p class='itemtext'>5</p>
-                </td>
-                <td class='tableitem'>
-                  <p class='itemtext'>$375.00</p>
-                </td>
-              </tr>
-
-              <tr class='service'>
-                <td class='tableitem'>
-                  <p class='itemtext'>Animation</p>
-                </td>
-                <td class='tableitem'>
-                  <p class='itemtext'>20</p>
-                </td>
-                <td class='tableitem'>
-                  <p class='itemtext'>$1500.00</p>
-                </td>
-              </tr>
-
-              <tr class='service'>
-                <td class='tableitem'>
-                  <p class='itemtext'>Animation Revisions</p>
-                </td>
-                <td class='tableitem'>
-                  <p class='itemtext'>10</p>
-                </td>
-                <td class='tableitem'>
-                  <p class='itemtext'>$750.00</p>
-                </td>
-              </tr>
-
-              <tr class='tabletitle'>
-                <td></td>
-                <td class='Rate'>
-                  <h2>tax</h2>
-                </td>
-                <td class='payment'>
-                  <h2>$419.25</h2>
-                </td>
-              </tr>
-
-              <tr class='tabletitle'>
-                <td></td>
-                <td class='Rate'>
-                  <h2>Total</h2>
-                </td>
-                <td class='payment'>
-                  <h2>$3,644.25</h2>
-                </td>
-              </tr>
+              <thead>
+                <tr class='tabletitle'>
+                  <th class='item'>
+                    <h2>Item</h2>
+                  </th>
+                  <th class='Hours'>
+                    <h2>Qty</h2>
+                  </th>
+                  <th class='Rate'>
+                    <h2>Sub Total</h2>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {cartItems.map((item) => (
+                  <tr class='service' key={item.id}>
+                    <td class='tableitem'>
+                      <p class='itemtext'>{item.name}</p>
+                    </td>
+                    <td class='tableitem'>
+                      <p class='itemtext'>{item.quantity}</p>
+                    </td>
+                    <td class='tableitem'>
+                      <p class='itemtext'>
+                        {item.price.amount * item.quantity}
+                      </p>
+                    </td>
+                  </tr>
+                ))}
+                <tr class='tabletitle'>
+                  <td></td>
+                  <td class='Rate'>
+                    <h2>Customer Pay</h2>
+                  </td>
+                  <td class='payment'>
+                    <h2>{'Ksh ' + payment.customer_pay}</h2>
+                  </td>
+                </tr>
+                <tr class='tabletitle'>
+                  <td></td>
+                  <td class='Rate'>
+                    <h2>Customer Change</h2>
+                  </td>
+                  <td class='payment'>
+                    <h2>{'Ksh ' + payment.customer_change}</h2>
+                  </td>
+                </tr>
+                <tr class='tabletitle'>
+                  <td></td>
+                  <td class='Rate'>
+                    <h2>Total</h2>
+                  </td>
+                  <td class='payment'>
+                    <h2>{payment.total}</h2>
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </div>
 
-          <div id='legalcopy'>
+          <div
+            id='legalcopy '
+            className='border-bottom border-dark text-center'
+          >
+            <p class='legal'>
+              <strong>Served by</strong> <strong>{payment.sold_by_text}</strong>
+            </p>
             <p class='legal'>
               <strong>Thank you for your business!</strong> 
               <strong>Follow use on ig@scratchkitchen</strong>
+              <br />
+              {formatDate(payment.created_at)}
             </p>
           </div>
         </div>
