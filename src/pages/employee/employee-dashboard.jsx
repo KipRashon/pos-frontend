@@ -160,8 +160,7 @@ class EmployeeDashboard extends Component {
                     prices,
                     measures,
                     sale_id: saleResp.id,
-                  }),
-                  'Sale made successfully'
+                  })
                 ).then((res) => {
                   this.setState({showPrint: true});
                 })

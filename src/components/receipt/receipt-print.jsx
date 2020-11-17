@@ -10,7 +10,7 @@ export default function ReceiptPrint(props) {
     onAfterPrint();
   };
   return (
-    <>
+    <div className='container row justify-content-center'>
       <div class='ticket'>
         <p class='centered'>
           SCRATCH KITCHEN LTD
@@ -85,6 +85,6 @@ export default function ReceiptPrint(props) {
           Confirm Print
         </button>
       </div>
-    </>
+    </div>
   );
 }
