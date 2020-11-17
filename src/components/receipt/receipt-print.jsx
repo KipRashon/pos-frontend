@@ -20,8 +20,8 @@ export default function ReceiptPrint(props) {
 
         <div id='mid'>
           <div class='info'>
-            <h2>Contact Info</h2>
-            <p>
+            <h2>Scratch Kitchen</h2>
+            <p className='font-weight-bold'>
               Address : P.O.BOX 102358-00101
               <br />
               Email : askscratchkitchen@gmail.com /ig@scratchkitchen <br />
@@ -130,9 +130,8 @@ export default function ReceiptPrint(props) {
 
           <div id='legalcopy'>
             <p class='legal'>
-              <strong>Thank you for your business!</strong>  Payment is expected
-              within 31 days; please process this invoice within that time.
-              There will be a 5% interest charge per month on late invoices.
+              <strong>Thank you for your business!</strong> 
+              <strong>Follow use on ig@scratchkitchen</strong>
             </p>
           </div>
         </div>
