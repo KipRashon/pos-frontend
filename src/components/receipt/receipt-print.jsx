@@ -42,11 +42,12 @@ export default function ReceiptPrint(props) {
               </tr>
             ))}
             <tr>
-              <td></td>
-              <td className='description' colSpan='2'>
+              <td className='description centered' colSpan='2'>
                 Total
               </td>
-              <td className='price'>{payment.total}</td>
+              <td className='price' colSpan='2'>
+                {payment.total}
+              </td>
             </tr>
           </tbody>
         </table>
