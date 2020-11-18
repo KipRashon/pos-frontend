@@ -6,6 +6,12 @@ table {
   border-collapse: collapse;
 }
 
+table {
+  display: block;
+  border-spacing: 0;
+  border-color: #000;
+}
+
 td.description,
 th.description {
   width: 75px;
@@ -34,9 +40,12 @@ th.price {
 .ticket {
   width: 155px;
   max-width: 155px;
+  font-weight: unset;
+
   * {
     font-size: 12px;
     font-family: 'Times New Roman';
+    color: #000;
   }
 }
 
