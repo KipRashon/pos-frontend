@@ -10,77 +10,63 @@ export default function ReceiptPrint(props) {
     onAfterPrint();
   };
   return (
-    <div className='container'>
-      <div class='ticket'>
-        <p class='centered'>
+    <>
+      <div className='ticket'>
+        <p className='centered'>
           SCRATCH KITCHEN LTD
           <br />
           CUSTOMER BILL
           <br />
-          {formatDate(payment.created_at)}
-          <br />
           <small>
-            <b>P.O.BOX 102358-00101 NRB TELEPHONE: 0791 482 995/0756936852</b>
+            P.O.BOX 102358-00101 NRB TELEPHONE: 0791 482 995/0756936852
           </small>
           <br />
-          Till No. - {'4028177'}
+          <b>Till No. 4028177</b>
         </p>
-        <table className='table'>
+        <table>
           <thead>
             <tr>
-              <th class='description'>Good</th>
-              <th class='quantity'>Q.</th>
-              <th class='price1 centered'>@</th>
-              <th class='price2'>Total</th>
+              <th className='description'>Description</th>
+              <th className='quantity'>Q.</th>
+              <th className='price'>@</th>
+              <th className='price'>S.T</th>
             </tr>
           </thead>
           <tbody>
             {cartItems.map((item) => (
-              <tr>
+              <tr key={item.id}>
                 <td className='description'>{item.name}</td>
                 <td className='quantity'>{item.quantity}</td>
-                <td className='price1 centered'>{item.price.amount}</td>
-                <td className='price2 centered'>
-                  {item.price.amount * item.quantity}
-                </td>
+                <td className='price'>{item.price.amount}</td>
+                <td className='price'>{item.price.amount * item.quantity}</td>
               </tr>
             ))}
-
             <tr>
               <td></td>
-              <td></td>
-              <td className='centered'>Total Amount</td>
-              <td className='centered'>{payment.total}</td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td className='centered'>{payment.payment_method}</td>
-              <td className='centered'>{'Ksh ' + payment.customer_pay}</td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td className='centered'>Customer Change</td>
-              <td className='centered'>{'Ksh ' + payment.customer_change}</td>
+              <td className='description' colSpan='2'>
+                Total
+              </td>
+              <td className='price'>{payment.total}</td>
             </tr>
           </tbody>
         </table>
-        <h6 className='text-center font-weight-bolder text-uppercase'>
-          SERVED BY {payment.sold_by_text}
-        </h6>
-        <p class='centered border-top border-dark' style={{fontSize: '12px'}}>
-          Thanks for your purchase!
+        <p className='centered'>
+          Served by
+          {' ' + payment.sold_by_text + ' at ' + formatDate(payment.created_at)}
           <br />
           askscratchkitchen@gmail.com /ig@scratchkitchen
         </p>
       </div>
-      <div className='w-100 row justify-content-end hidden-print fixed-bottom'>
-        <button className='btn btn-primary' onClick={handlePrint}>
-          <i className='fa fa-print'></i>
-          Confirm Print
-        </button>
-      </div>
-    </div>
+      <button className='btn btn-secondary ml-2' onClick={() => onAfterPrint()}>
+        Back
+      </button>
+      <button
+        id='btnPrint'
+        className='hidden-print btn btn-dark ml-5'
+        onClick={handlePrint}
+      >
+        Print
+      </button>
+    </>
   );
 }
