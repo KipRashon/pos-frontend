@@ -29,7 +29,12 @@ class AdminDashboard extends Component {
     const {sales} = this.state;
     return (
       <div className='mt-3'>
-        <h2>Latest Sales</h2>
+        <h2>
+          Latest Sales
+          <small className='float-right'>
+            <span className='badge badge-success'>Total- {sales.length}</span>
+          </small>
+        </h2>
         <div className='table-responsive'>
           <table className='table table-striped table-sm'>
             <thead>
@@ -46,29 +51,34 @@ class AdminDashboard extends Component {
               </tr>
             </thead>
             <tbody>
-              {sales.map((sale, index) => (
-                <tr key={sale.id}>
-                  <td>{++index}</td>
-                  <td>{sale.firstname + ' ' + sale.lastname}</td>
-                  <td>{sale.payment_method}</td>
-                  <td>{sale.goods_count}</td>
-                  <td>{sale.total}</td>
-                  <td>{getFormattedAmount(sale.customer_pay, 1)}</td>
-                  <td>{getFormattedAmount(sale.customer_change, 1)}</td>
-                  <td>{formatDate(sale.created_at)}</td>
-                  <td>
-                    <button
-                      className='btn btn-secondary'
-                      onClick={() =>
-                        this.props.history.push('/admin/sales/view/' + sale.id)
-                      }
-                    >
-                      <i className='fa fa-eye mr-2'></i>
-                      View
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              {sales.map(
+                (sale, index) =>
+                  index < 10 && (
+                    <tr key={sale.id}>
+                      <td>{++index}</td>
+                      <td>{sale.firstname + ' ' + sale.lastname}</td>
+                      <td>{sale.payment_method}</td>
+                      <td>{sale.goods_count}</td>
+                      <td>{sale.total}</td>
+                      <td>{getFormattedAmount(sale.customer_pay, 1)}</td>
+                      <td>{getFormattedAmount(sale.customer_change, 1)}</td>
+                      <td>{formatDate(sale.created_at)}</td>
+                      <td>
+                        <button
+                          className='btn btn-secondary'
+                          onClick={() =>
+                            this.props.history.push(
+                              '/admin/sales/view/' + sale.id
+                            )
+                          }
+                        >
+                          <i className='fa fa-eye mr-2'></i>
+                          View
+                        </button>
+                      </td>
+                    </tr>
+                  )
+              )}
             </tbody>
           </table>
         </div>

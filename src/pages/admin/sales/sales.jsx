@@ -29,7 +29,12 @@ class Sales extends Component {
     const {sales} = this.state;
     return (
       <div className='mt-3'>
-        <h2> Sales</h2>
+        <h2>
+          Sales
+          <small className='float-right'>
+            <span className='badge badge-success'>Total- {sales.length}</span>
+          </small>
+        </h2>
         <div className='table-responsive'>
           <table className='table table-striped table-sm'>
             <thead>

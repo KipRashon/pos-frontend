@@ -31,7 +31,12 @@ function EmployeeSales(props) {
   }, []);
   return (
     <div className='container-fluid ml-2 mr-2'>
-      <h4 className='text-center'>Sales for {currentUser.firstname}</h4>
+      <h4 className='text-center'>
+        Sales for {currentUser.firstname}
+        <small className='float-right'>
+          <span className='badge badge-success'>Total- {sales.length}</span>
+        </small>
+      </h4>
       <div className='row justify-content-center'>
         <div className='table-responsive'>
           <table className='table table-bordered table-hover'>
