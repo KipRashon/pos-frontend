@@ -14,21 +14,21 @@ table {
 
 td.description,
 th.description {
-  width: 90px;
-  max-width: 90px;
+  width: 130px;
+  max-width: 130px;
 }
 
 td.quantity,
 th.quantity {
-  width: 30px;
-  max-width: 30px;
+  width: 50px;
+  max-width: 50px;
   word-break: break-all;
 }
 
 td.price,
 th.price {
-  width: 30px;
-  max-width: 30px;
+  width: 50px;
+  max-width: 50px;
   word-break: break-all;
 }
 
@@ -38,8 +38,8 @@ th.price {
 }
 
 .ticket {
-  width: 200px;
-  max-width: 200px;
+  width: 300px;
+  max-width: 300px;
   font-weight: unset;
 
   * {
