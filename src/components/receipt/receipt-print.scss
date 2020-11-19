@@ -40,7 +40,7 @@ th.price {
 .ticket {
   width: 300px;
   max-width: 300px;
-  font-weight: unset;
+  font-weight: normal !important;
 
   * {
     font-size: 12px;
