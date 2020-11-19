@@ -4,12 +4,16 @@ tr,
 table {
   border-top: 1px solid black;
   border-collapse: collapse;
+  font-weight: bold !important;
 }
 
 table {
   display: block;
   border-spacing: 0;
   border-color: #000;
+}
+th {
+  font-weight: bolder;
 }
 
 td.description,
@@ -47,11 +51,6 @@ th.price {
     font-family: 'Times New Roman';
     color: #000;
   }
-}
-
-img {
-  max-width: inherit;
-  width: inherit;
 }
 
 @media print {

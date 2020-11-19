@@ -21,7 +21,7 @@ export default function ReceiptPrint(props) {
             P.O.BOX 102358-00101 NRB TELEPHONE: 0791 482 995/0756936852
           </small>
           <br />
-          <b>Till No. 4028177</b>
+          <small style={{fontWeight: 'bolder'}}>Till No. 4028177</small>
         </p>
         <table>
           <thead>
