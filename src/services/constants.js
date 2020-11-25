@@ -17,3 +17,8 @@ export const payment_methods = [
   'Uber Eats',
   'Little Cab',
 ];
+
+export const printer_widths = {
+  KITCHEN_PRINTER: '500px',
+  FUSION_PRINTER: '300px',
+};

@@ -1,21 +1,30 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {formatDate} from '../../services/utility';
 import './receipt-print.scss';
 
 export default function ReceiptPrint(props) {
   const {payment, cartItems, onAfterPrint} = props;
+  const [count, setCount] = useState(1);
 
   const handlePrint = () => {
-    window.print();
+    setCount(1);
+    for (let i = 1; i <= 2; i++) {
+      setCount(i);
+      window.print();
+    }
     onAfterPrint();
   };
+
   return (
     <>
-      <div className='ticket'>
+      <div
+        className='ticket'
+        style={{width: payment.receiptWidth, maxWidth: payment.receiptWidth}}
+      >
         <p className='centered'>
           SCRATCH KITCHEN LTD
           <br />
-          CUSTOMER BILL
+          {count === 1 ? 'CUSTOMER BILL' : 'ORDER'}
           <br />
           <small>
             P.O.BOX 102358-00101 NRB TELEPHONE: 0791 482 995/0756936852
@@ -58,16 +67,24 @@ export default function ReceiptPrint(props) {
           askscratchkitchen@gmail.com /ig@scratchkitchen
         </p>
       </div>
-      <button className='btn btn-secondary ml-2' onClick={() => onAfterPrint()}>
-        Back
-      </button>
-      <button
-        id='btnPrint'
-        className='hidden-print btn btn-dark ml-5'
-        onClick={handlePrint}
+      <div
+        className='justify-content-center  row hidden-print'
+        style={{width: payment.receiptWidth, maxWidth: payment.receiptWidth}}
       >
-        Print
-      </button>
+        <button
+          className='btn btn-secondary ml-2'
+          onClick={() => onAfterPrint()}
+        >
+          Back
+        </button>
+        <button
+          id='btnPrint'
+          className='hidden-print btn btn-dark ml-5'
+          onClick={handlePrint}
+        >
+          Print
+        </button>
+      </div>
     </>
   );
 }

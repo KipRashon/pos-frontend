@@ -1,10 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {showNotification} from '../../services/api-handle';
-import {payment_methods} from '../../services/constants';
+import {
+  payment_methods,
+  places,
+  printer_widths,
+} from '../../services/constants';
 import {getFormattedAmount, getFormattedMeasure} from '../../services/utility';
 
 function Receipt(props) {
-  const {cartItems, removeFromCart, handleSale} = props;
+  const {cartItems, removeFromCart, handleSale, place} = props;
   const [useOnlinePrice, setUseOnlinePrice] = useState(false);
 
   const getRawTotalAmount = () => {
@@ -38,6 +42,10 @@ function Receipt(props) {
     payment_method: payment_methods[0],
     transaction_code: '',
     total: getTotalAmount(),
+    receiptWidth:
+      parseInt(place) === places.BAR
+        ? printer_widths.FUSION_PRINTER
+        : printer_widths.KITCHEN_PRINTER,
   });
 
   const checkIfUseOnline = (method) => {
@@ -132,11 +140,46 @@ function Receipt(props) {
           }
         />
       </div>
-      <div
-        className='mt-4 row justify-content-center'
-        onClick={() => handleSale({...payment, total: getTotalAmount()})}
-      >
-        <button className='btn btn-success text-uppercase p-2 col-6'>
+      <div className='form-group'>
+        <label htmlFor=''>Choose Printer</label>
+        <select
+          name=''
+          id=''
+          className='form-control'
+          value={payment.receiptWidth}
+          onChange={(e) =>
+            setPayment({...payment, receiptWidth: e.target.value})
+          }
+        >
+          <option value={printer_widths.FUSION_PRINTER}>Fusion Printer</option>
+          <option value={printer_widths.KITCHEN_PRINTER}>
+            Kitchen Printer
+          </option>
+        </select>
+      </div>
+      <div className='mt-4 row justify-content-center '>
+        <button
+          className='btn btn-secondary text-uppercase p-1 mr-2'
+          onClick={() =>
+            handleSale({
+              ...payment,
+              total: getTotalAmount(),
+              continueToPrint: false,
+            })
+          }
+        >
+          Confirm
+        </button>
+        <button
+          className='btn btn-success text-uppercase p-1 ml-2'
+          onClick={() =>
+            handleSale({
+              ...payment,
+              total: getTotalAmount(),
+              continueToPrint: true,
+            })
+          }
+        >
           Confirm & Print
         </button>
       </div>

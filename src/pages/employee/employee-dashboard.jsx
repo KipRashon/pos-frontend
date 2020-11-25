@@ -121,6 +121,7 @@ class EmployeeDashboard extends Component {
   handleSale = (payment) => {
     const {cartItems} = this.state;
     const currentUser = getFromLocal('currentUser');
+    const {continueToPrint} = payment;
 
     trackPromise(
       handleError(
@@ -135,6 +136,7 @@ class EmployeeDashboard extends Component {
               payment: {
                 ...saleResp,
                 sold_by_text: `${currentUser.firstname} ${currentUser.lastname}`,
+                receiptWidth: payment.receiptWidth,
               },
             });
             let goods = [];
@@ -160,9 +162,14 @@ class EmployeeDashboard extends Component {
                     prices,
                     measures,
                     sale_id: saleResp.id,
-                  })
+                  }),
+                  'Sale made successfully'
                 ).then((res) => {
-                  this.setState({showPrint: true});
+                  if (continueToPrint) {
+                    this.setState({showPrint: true});
+                  } else {
+                    this.onAfterPrint();
+                  }
                 })
               )
             );
@@ -170,6 +177,15 @@ class EmployeeDashboard extends Component {
         )
       )
     );
+  };
+
+  onAfterPrint = () => {
+    this.setState({
+      selectedItem: {},
+      cartItems: [],
+      payment: {},
+      showPrint: false,
+    });
   };
 
   render() {
@@ -189,14 +205,7 @@ class EmployeeDashboard extends Component {
           cartItems={cartItems}
           payment={payment}
           printReceipt={this.printReceipt}
-          onAfterPrint={() => {
-            this.setState({
-              selectedItem: {},
-              cartItems: [],
-              payment: {},
-              showPrint: false,
-            });
-          }}
+          onAfterPrint={this.onAfterPrint}
         />
       );
     }
@@ -263,6 +272,7 @@ class EmployeeDashboard extends Component {
                 cartItems={cartItems}
                 removeFromCart={this.removeFromCart}
                 handleSale={this.handleSale}
+                place={this.props.match.params.id}
               />
             </div>
           </div>
