@@ -33,16 +33,18 @@ function EmployeeWelcome(props) {
         }
       >
         <h5>
-          Restaurant <i class='float-right fas fa-utensils'></i>
+          Restaurant <i className='float-right fas fa-utensils'></i>
         </h5>
       </div>
       <div
         className='col-md-8 pt-4 shadow shadow-dark   link emp-menu'
         style={{height: '80px'}}
-        onClick={() => props.history.push(`/employee/sales`)}
+        onClick={() =>
+          props.history.push(`/employee/sales/${places.RESTAURANT}`)
+        }
       >
         <h5>
-          Sale History <i class='float-right fas fa-history'></i>
+          Sale History <i className='float-right fas fa-history'></i>
         </h5>
       </div>
     </div>

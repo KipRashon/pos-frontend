@@ -15,21 +15,21 @@ function Header(props) {
           <i className='fas fa-utensils'></i>
         )}
       </div>
-      <div class='dropdown float-right pr-3 dropleft'>
+      <div className='dropdown float-right pr-3 dropleft'>
         <button
           className='btn btn-light dropdown-toggle '
           data-toggle='dropdown'
         >
           <i className='fas fa-bars'></i>
         </button>
-        <div class='dropdown-menu ' aria-labelledby='dropdownMenuButton'>
-          <Link class='dropdown-item ' to={'/employee/sales'}>
+        <div className='dropdown-menu ' aria-labelledby='dropdownMenuButton'>
+          <Link className='dropdown-item ' to={`/employee/sales/${place}`}>
             Sales
           </Link>
-          <Link class='dropdown-item ' to={'/employee'}>
+          <Link className='dropdown-item ' to={'/employee'}>
             Main Page
           </Link>
-          <Link class='dropdown-item ' to={'/'}>
+          <Link className='dropdown-item ' to={'/'}>
             Logout
           </Link>
         </div>

@@ -8,7 +8,7 @@ import {
 import {getFormattedAmount, getFormattedMeasure} from '../../services/utility';
 
 function Receipt(props) {
-  const {cartItems, removeFromCart, handleSale, place} = props;
+  const {cartItems, removeFromCart, handleSale, place, payObj} = props;
   const [useOnlinePrice, setUseOnlinePrice] = useState(false);
 
   const getRawTotalAmount = () => {
@@ -47,6 +47,13 @@ function Receipt(props) {
         ? printer_widths.FUSION_PRINTER
         : printer_widths.KITCHEN_PRINTER,
   });
+
+  useEffect(() => {
+    setPayment({
+      ...payment,
+      ...payObj,
+    });
+  }, [payObj.sale_id, payObj]);
 
   const checkIfUseOnline = (method) => {
     let methods = [...payment_methods];
@@ -119,6 +126,7 @@ function Receipt(props) {
             type='text'
             className='form-control'
             placeholder='OK749ZTL6Y'
+            value={payment.transaction_code}
             onChange={(e) =>
               setPayment({...payment, transaction_code: e.target.value})
             }
@@ -131,6 +139,7 @@ function Receipt(props) {
           type='text'
           className='form-control'
           placeholder='Amount customer paid'
+          value={payment.customer_pay}
           onChange={(e) =>
             setPayment({
               ...payment,
@@ -168,7 +177,7 @@ function Receipt(props) {
             })
           }
         >
-          Confirm
+          {payment.sale_id ? 'Edit' : 'Confirm'}
         </button>
         <button
           className='btn btn-success text-uppercase p-1 ml-2'
@@ -180,7 +189,7 @@ function Receipt(props) {
             })
           }
         >
-          Confirm & Print
+          {payment.sale_id ? 'Edit' : 'Confirm'} & Print
         </button>
       </div>
     </div>

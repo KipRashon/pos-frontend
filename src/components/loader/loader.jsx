@@ -7,7 +7,7 @@ function Loader() {
   if (promiseInProgress) {
     return (
       <div className='loader-container'>
-        <div class='loader'>
+        <div className='loader'>
           <span>Loading...</span>
         </div>
       </div>

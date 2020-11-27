@@ -32,11 +32,34 @@ class EmployeeDashboard extends Component {
       cartItems: [],
       payment: {},
       showPrint: false,
+      saleId: '',
     };
     this.receiptRef = React.createRef();
   }
   componentDidMount() {
     this.getCategories();
+    let saleId = this.props.match.params.sale_id;
+    if (saleId) {
+      this.setState({saleId});
+      let url = 'sales/cart-items/' + saleId;
+
+      trackPromise(
+        handleError(
+          handleSuccess(sendGetRequest(url)).then((res) => {
+            let cartItems = res.data.cart_items;
+            let sale = res.data.sale;
+            let payment = {
+              payment_method: sale.payment_method,
+              customer_pay: sale.customer_pay,
+              transaction_code: sale.transaction_code,
+              sale_id: sale.id,
+              customer_change: sale.customer_change,
+            };
+            this.setState({cartItems, payment});
+          })
+        )
+      );
+    }
   }
 
   getCategories() {
@@ -121,15 +144,24 @@ class EmployeeDashboard extends Component {
   handleSale = (payment) => {
     const {cartItems} = this.state;
     const currentUser = getFromLocal('currentUser');
-    const {continueToPrint} = payment;
+    const {continueToPrint, sale_id} = payment;
+    let addSaleUrl = 'sales';
+    let addHistoryUrl = 'sales/history';
+    let successMessage = 'Sale made successfully';
+    if (sale_id) {
+      addSaleUrl = `sales/${sale_id}/edit`;
+      addHistoryUrl = `sales/${sale_id}/history/edit`;
+      successMessage = 'Sale edited successfully';
+    }
 
     trackPromise(
       handleError(
         handleSuccess(
-          sendPostRequest('sales', {
+          sendPostRequest(addSaleUrl, {
             ...payment,
             sold_by: `${currentUser.id}`,
             sold_goods: cartItems.length,
+            sold_by_text: `${currentUser.firstname} ${currentUser.lastname}`,
           }).then((res) => {
             let saleResp = res.data.sale;
             this.setState({
@@ -156,14 +188,14 @@ class EmployeeDashboard extends Component {
             trackPromise(
               handleError(
                 handleSuccess(
-                  sendPostRequest('sales/history', {
+                  sendPostRequest(addHistoryUrl, {
                     goods,
                     quantities,
                     prices,
                     measures,
                     sale_id: saleResp.id,
                   }),
-                  'Sale made successfully'
+                  successMessage
                 ).then((res) => {
                   if (continueToPrint) {
                     this.setState({showPrint: true});
@@ -180,12 +212,14 @@ class EmployeeDashboard extends Component {
   };
 
   onAfterPrint = () => {
+    let place = this.props.match.params.id;
     this.setState({
       selectedItem: {},
       cartItems: [],
       payment: {},
       showPrint: false,
     });
+    this.props.history.push('/employee/sales/' + place);
   };
 
   render() {
@@ -273,6 +307,7 @@ class EmployeeDashboard extends Component {
                 removeFromCart={this.removeFromCart}
                 handleSale={this.handleSale}
                 place={this.props.match.params.id}
+                payObj={payment}
               />
             </div>
           </div>

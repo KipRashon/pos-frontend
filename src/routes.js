@@ -40,7 +40,12 @@ function Routes() {
         ></Route>
         <Route
           exact
-          path='/employee/sales'
+          path='/employee/dashboard/:id/edit/:sale_id'
+          render={(props) => <EmployeeDashboard {...props} />}
+        ></Route>
+        <Route
+          exact
+          path='/employee/sales/:place'
           render={(props) => <EmployeeSales {...props} />}
         ></Route>
         <Route
