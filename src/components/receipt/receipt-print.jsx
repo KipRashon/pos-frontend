@@ -42,11 +42,9 @@ export default function ReceiptPrint(props) {
         const imgData = canvas.toDataURL('image/png');
         const pdf = new jsPDF();
         pdf.addImage(imgData, 'JPEG', 0, 0);
-        pdf.save(`receipt-${payment.id}.pdf`);
-        onAfterPrint();
+        pdf.save(`receipt.pdf`);
       });
     }
-    onAfterPrint();
   };
 
   const handlePrint = () => {
