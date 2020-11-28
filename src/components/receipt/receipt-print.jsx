@@ -35,25 +35,25 @@ export default function ReceiptPrint(props) {
   };
 
   const printAndroid = () => {
-    html2canvas(document.getElementById('receipt')).then(function (canvas) {
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF();
-      pdf.addImage(imgData, 'JPEG', 0, 0);
-      pdf.save(`receipt-${payment.id}.pdf`);
-    });
-  };
-
-  const handlePrint = () => {
-    var ua = navigator.userAgent.toLowerCase();
-    var isAndroid = ua.indexOf('android') > -1 || ua.indexOf('mobile') > -1; //&& ua.indexOf("mobile");
     setCount(1);
     for (let i = 1; i <= 2; i++) {
       setCount(i);
-      if (isAndroid) {
-        printAndroid();
-      } else {
-        window.print();
-      }
+      html2canvas(document.getElementById('receipt')).then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF();
+        pdf.addImage(imgData, 'JPEG', 0, 0);
+        pdf.save(`receipt-${payment.id}.pdf`);
+        onAfterPrint();
+      });
+    }
+    onAfterPrint();
+  };
+
+  const handlePrint = () => {
+    setCount(1);
+    for (let i = 1; i <= 2; i++) {
+      setCount(i);
+      window.print();
     }
     onAfterPrint();
   };
@@ -128,10 +128,17 @@ export default function ReceiptPrint(props) {
         </button>
         <button
           id='btnPrint'
-          className='hidden-print btn btn-dark ml-5'
+          className='hidden-print btn btn-dark ml-5 d-lg-block d-md-block d-none'
           onClick={handlePrint}
         >
           Print
+        </button>
+        <button
+          id='btnPrint'
+          className='hidden-print btn btn-dark ml-5 d-lg-none d-md-none d-sm-block '
+          onClick={printAndroid}
+        >
+          Download Pdf
         </button>
       </div>
     </>
