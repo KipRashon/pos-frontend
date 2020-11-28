@@ -128,14 +128,14 @@ export default function ReceiptPrint(props) {
         </button>
         <button
           id='btnPrint'
-          className='hidden-print btn btn-dark ml-5 d-lg-block d-md-block d-none'
+          className='hidden-print btn btn-dark ml-5 print-computer'
           onClick={handlePrint}
         >
           Print
         </button>
         <button
           id='btnPrint'
-          className='hidden-print btn btn-dark ml-5 d-lg-none d-md-none d-sm-block '
+          className='hidden-print btn btn-dark ml-5 print-android'
           onClick={printAndroid}
         >
           Download Pdf
