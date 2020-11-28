@@ -42,7 +42,7 @@ export default function ReceiptPrint(props) {
         const imgData = canvas.toDataURL('image/png');
         const pdf = new jsPDF();
         pdf.addImage(imgData, 'JPEG', 0, 0);
-        pdf.save(`receipt.pdf`);
+        pdf.save(`receipt${sale_id}-${i === 1 ? 'bill' : 'order'}.pdf`);
       });
     }
   };
