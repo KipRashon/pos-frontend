@@ -6,7 +6,7 @@ function Loader() {
   const {promiseInProgress} = usePromiseTracker();
   if (promiseInProgress) {
     return (
-      <div className='loader-container'>
+      <div className='loader-container hidden-print'>
         <div className='loader'>
           <span>Loading...</span>
         </div>
