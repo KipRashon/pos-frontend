@@ -8,6 +8,9 @@ import {
 import {formatDate} from '../../services/utility';
 import './receipt-print.scss';
 
+import {jsPDF} from 'jspdf';
+import html2canvas from 'html2canvas';
+
 export default function ReceiptPrint(props) {
   const {width, sale_id} = props;
 
@@ -31,18 +34,37 @@ export default function ReceiptPrint(props) {
     props.history.goBack();
   };
 
+  const printAndroid = () => {
+    html2canvas(document.getElementById('receipt')).then(function (canvas) {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF();
+      pdf.addImage(imgData, 'JPEG', 0, 0);
+      pdf.save(`receipt-${payment.id}.pdf`);
+    });
+  };
+
   const handlePrint = () => {
+    var ua = navigator.userAgent.toLowerCase();
+    var isAndroid = ua.indexOf('android') > -1 || ua.indexOf('mobile') > -1; //&& ua.indexOf("mobile");
     setCount(1);
     for (let i = 1; i <= 2; i++) {
       setCount(i);
-      window.print();
+      if (isAndroid) {
+        printAndroid();
+      } else {
+        window.print();
+      }
     }
     onAfterPrint();
   };
 
   return (
     <>
-      <div className='ticket' style={{width: width, maxWidth: width}}>
+      <div
+        className='ticket'
+        style={{width: width, maxWidth: width}}
+        id='receipt'
+      >
         <p className='centered'>
           SCRATCH KITCHEN LTD
           <br />
