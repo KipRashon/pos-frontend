@@ -3,6 +3,7 @@ import {
   Redirect,
   Route,
   Switch,
+  useLocation,
 } from 'react-router-dom';
 import {ToastContainer} from 'react-toastify';
 import Admins from './pages/admin/admins/admins';
@@ -19,10 +20,15 @@ import EmployeeSaleDetail from './pages/employee/employee-sale-detai';
 import SaleDetail from './pages/admin/sales/sale-detail';
 import Sales from './pages/admin/sales/sales';
 import Loader from './components/loader/loader';
+import ReceiptPrint from './components/receipt/receipt-print';
 
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 function Routes() {
+  let query = useQuery();
   return (
-    <Router>
+    <>
       <Loader />
 
       <ToastContainer hideProgressBar={true} />
@@ -52,6 +58,17 @@ function Routes() {
           exact
           path='/employee/sales/view/:id'
           render={(props) => <EmployeeSaleDetail {...props} />}
+        ></Route>
+        <Route
+          exact
+          path='/employee/print'
+          render={(props) => (
+            <ReceiptPrint
+              {...props}
+              sale_id={query.get('sale_id')}
+              width={query.get('width')}
+            />
+          )}
         ></Route>
         <Route
           exact
@@ -103,7 +120,7 @@ function Routes() {
 
         <Redirect exact to='/login' />
       </Switch>
-    </Router>
+    </>
   );
 }
 

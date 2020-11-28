@@ -198,7 +198,12 @@ class EmployeeDashboard extends Component {
                   successMessage
                 ).then((res) => {
                   if (continueToPrint) {
-                    this.setState({showPrint: true});
+                    this.props.history.push(
+                      formatUrl('/employee/print', {
+                        sale_id: saleResp.id,
+                        width: payment.receiptWidth,
+                      })
+                    );
                   } else {
                     this.onAfterPrint();
                   }
@@ -219,7 +224,7 @@ class EmployeeDashboard extends Component {
       payment: {},
       showPrint: false,
     });
-    this.props.history.push('/employee/sales/' + place);
+    this.props.history.push('/employee/dashboard/' + place);
   };
 
   render() {

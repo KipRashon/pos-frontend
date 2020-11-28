@@ -1,10 +1,35 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import {trackPromise} from 'react-promise-tracker';
+import {
+  handleError,
+  handleSuccess,
+  sendGetRequest,
+} from '../../services/api-handle';
 import {formatDate} from '../../services/utility';
 import './receipt-print.scss';
 
 export default function ReceiptPrint(props) {
-  const {payment, cartItems, onAfterPrint} = props;
+  const {width, sale_id} = props;
+
+  const [cartItems, setCartItems] = useState([]);
+  const [payment, setPayment] = useState({});
   const [count, setCount] = useState(1);
+
+  useEffect(() => {
+    let url = 'sales/cart-items/' + sale_id;
+
+    trackPromise(
+      handleError(
+        handleSuccess(sendGetRequest(url)).then((res) => {
+          setCartItems(res.data.cart_items);
+          setPayment(res.data.sale);
+        })
+      )
+    );
+  }, [sale_id]);
+  const onAfterPrint = () => {
+    props.history.goBack();
+  };
 
   const handlePrint = () => {
     setCount(1);
@@ -17,10 +42,7 @@ export default function ReceiptPrint(props) {
 
   return (
     <>
-      <div
-        className='ticket'
-        style={{width: payment.receiptWidth, maxWidth: payment.receiptWidth}}
-      >
+      <div className='ticket' style={{width: width, maxWidth: width}}>
         <p className='centered'>
           SCRATCH KITCHEN LTD
           <br />
@@ -62,14 +84,19 @@ export default function ReceiptPrint(props) {
         </table>
         <p className='centered'>
           Served by
-          {' ' + payment.sold_by_text + ' at ' + formatDate(payment.created_at)}
+          {' ' +
+            payment.firstname +
+            ' ' +
+            payment.lastname +
+            ' at ' +
+            formatDate(payment.created_at)}
           <br />
           askscratchkitchen@gmail.com /ig@scratchkitchen
         </p>
       </div>
       <div
         className='justify-content-center  row hidden-print'
-        style={{width: payment.receiptWidth, maxWidth: payment.receiptWidth}}
+        style={{width: width, maxWidth: width}}
       >
         <button
           className='btn btn-secondary ml-2'
