@@ -1,6 +1,10 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
-@import '~animate.css/animate';
+@import '~animate.css/animate.min.css';
+@import "~bootstrap-select/dist/css/bootstrap-select.min.css";
+@import "~aos/dist/aos.css";
+@import "~perfect-scrollbar/css/perfect-scrollbar.css";
+@import '~metismenu/dist/metisMenu.min.css';
 
 //toaster
 @import '~react-toastify/dist/ReactToastify.css';

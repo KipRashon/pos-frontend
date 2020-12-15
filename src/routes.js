@@ -21,6 +21,9 @@ import SaleDetail from './pages/admin/sales/sale-detail';
 import Sales from './pages/admin/sales/sales';
 import Loader from './components/loader/loader';
 import ReceiptPrint from './components/receipt/receipt-print';
+import Stock from './pages/admin/stock/stock';
+import stock from './pages/admin/stock/stock';
+import StockHistory from './pages/admin/stock/stock-history';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -95,6 +98,22 @@ function Routes() {
           exact
           path='/admin/admins'
           render={(props) => <Admins {...props} />}
+        ></Route>
+        <Route
+          exact
+          path='/admin/stock'
+          render={(props) => <Stock {...props} />}
+        ></Route>
+        <Route
+          exact
+          path='/admin/stock/history'
+          render={(props) => (
+            <StockHistory
+              {...props}
+              stock={query.get('stock')}
+              place={query.get('place')}
+            />
+          )}
         ></Route>
         <Route
           exact

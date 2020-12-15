@@ -7,8 +7,8 @@ function Header(props) {
   const {place} = props;
 
   return (
-    <div className='header w-100'>
-      <div className='float-left pl-3 '>
+    <div className='employee-header w-100'>
+      <div className='float-left pl-3 place-icon '>
         {parseInt(place) === places.BAR ? (
           <i className='fas fa-glass-cheers'></i>
         ) : (
@@ -17,7 +17,7 @@ function Header(props) {
       </div>
       <div className='dropdown float-right pr-3 dropleft'>
         <button
-          className='btn btn-light dropdown-toggle '
+          className='btn bg-transparent dropdown-toggle '
           data-toggle='dropdown'
         >
           <i className='fas fa-bars'></i>
@@ -34,7 +34,7 @@ function Header(props) {
           </Link>
         </div>
       </div>
-      <div className='h3 text-center'>
+      <div className='h3 text-center text-white'>
         {parseInt(place) === places.BAR ? 'SCRATCH BAR' : 'SCRATCH RESTAURANT'}
       </div>
     </div>

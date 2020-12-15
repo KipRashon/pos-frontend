@@ -1,8 +1,8 @@
 import moment from 'moment';
+import {time_periods} from './constants';
 
 export function objetPropEmpty(obj) {
   for (let key in obj) {
-    console.log(obj[key]);
     if (!obj[key]) {
       return true;
     }
@@ -75,4 +75,28 @@ export function getFormattedMeasure(unit, measure) {
     return measure;
   }
   return `${measure} ${unit}`;
+}
+
+export function convertObjectToArray(obj) {
+  let arr = [];
+  for (let i in obj) {
+    arr.push(obj[i]);
+  }
+  return arr;
+}
+//used to get the display format for the graph
+export function getMapDisplayDate(dateStr, timePeriod) {
+  let date = moment(dateStr);
+  switch (timePeriod) {
+    case time_periods.TODAY.value:
+      return date.format('h a');
+    case time_periods.THIS_WEEK.value:
+      return date.format('ddd');
+    case time_periods.THIS_MONTH.value:
+      return date.format('Do');
+    case time_periods.THIS_YEAR.value:
+      return date.format('MMM');
+    default:
+      return '';
+  }
 }

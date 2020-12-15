@@ -17,21 +17,17 @@ export default function withTemplate(WrappedComponent) {
     }
     render() {
       return (
-        <>
+        <div id='main-wrapper' className='show'>
           <Header {...this.props} />
-          <div className='container-fluid'>
-            <div className='row'>
-              <SideBar />
 
-              <main
-                role='main'
-                className='col-md-9 ml-sm-auto col-lg-10 px-md-4'
-              >
-                <WrappedComponent {...this.props} />
-              </main>
+          <SideBar />
+
+          <div class='content-body' style={{minHeight: '100vh'}}>
+            <div class='container-fluid'>
+              <WrappedComponent {...this.props} />
             </div>
           </div>
-        </>
+        </div>
       );
     }
   };

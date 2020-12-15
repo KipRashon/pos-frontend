@@ -1,130 +1,131 @@
 import React, {Component} from 'react';
 import {trackPromise} from 'react-promise-tracker';
-import {Link} from 'react-router-dom';
-import ToolTipElement from '../../../components/tooltip/tooltip-element';
+import Counter from '../../../components/counter/counter';
+import SelectPeriod from '../../../components/select-period/select-period';
 import {
   handleError,
   handleSuccess,
   sendGetRequest,
-  sendPostRequest,
 } from '../../../services/api-handle';
-import {
-  formatDate,
-  getFormattedAmount,
-  getFromLocal,
-} from '../../../services/utility';
+import {time_periods} from '../../../services/constants';
+import {formatUrl} from '../../../services/utility';
 import withTemplate from '../with-template';
+import BestSelling from './best-selling';
+import SalesGraph from './sales-graph';
 
 class AdminDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sales: [],
+      totals: {},
+      period: time_periods.THIS_YEAR.value,
     };
   }
   componentDidMount() {
     this.updateData();
   }
   updateData = () => {
+    const {period} = this.state;
     trackPromise(
       handleError(
-        handleSuccess(sendGetRequest('sales')).then((res) => {
-          let sales = res.data.sales;
-          this.setState({sales});
-        })
+        handleSuccess(sendGetRequest(formatUrl('dashboard', {period}))).then(
+          (res) => {
+            let totals = res.data.totals;
+            this.setState({totals});
+          }
+        )
       )
     );
   };
 
-  handleDelete = (id) => {
-    let currentUser = getFromLocal('currentUser');
-    const updated_by = `${currentUser.firstname} ${currentUser.lastname}`;
-
-    trackPromise(
-      handleError(
-        handleSuccess(
-          sendPostRequest(`sales/${id}/delete`, {sale_id: id, updated_by}),
-          'Sale deleted successfully'
-        ).then((res) => {
-          this.updateData();
-        })
-      )
-    );
+  updateFilter = (obj) => {
+    this.setState({...obj}, () => this.updateData());
   };
 
   render() {
-    const {sales} = this.state;
+    const {totals, period} = this.state;
     return (
-      <div className='mt-3'>
-        <h2>
-          Latest Sales
-          <small className='float-right'>
-            <span className='badge badge-success'>Total- {sales.length}</span>
-          </small>
-        </h2>
-        <div className='table-responsive'>
-          <table className='table table-striped table-sm'>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Sold By</th>
-                <th>Payment Method</th>
-                <th>Number</th>
-                <th>Amount</th>
-                <th>
-                  Customer Pay
-                  <br />
-                  Customer Change
-                </th>
-                <th>Date</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sales.map(
-                (sale, index) =>
-                  index < 10 && (
-                    <tr key={sale.id}>
-                      <td>{++index}</td>
-                      <td>
-                        <Link to={'/admin/sales/view/' + sale.id}>
-                          {sale.firstname + ' ' + sale.lastname}
-                        </Link>
-                      </td>
-                      <td>{sale.payment_method}</td>
-                      <td>{sale.goods_count}</td>
-                      <td>{sale.total}</td>
-                      <td>
-                        {getFormattedAmount(sale.customer_pay, 1)}
-                        <br />
-                        {getFormattedAmount(sale.customer_change, 1)}
-                      </td>
-                      <td>{formatDate(sale.created_at)}</td>
-                      <td>
-                        {sale.status === 1 && (
-                          <ToolTipElement
-                            tooltip={`Deleted by ${
-                              sale.updated_by
-                            } at ${formatDate(sale.updated_at)}`}
-                          >
-                            <div className='badge badge-danger'>Deleted</div>
-                          </ToolTipElement>
-                        )}
-                        {sale.status === 2 && (
-                          <ToolTipElement
-                            tooltip={`Edited by ${
-                              sale.updated_by
-                            } at ${formatDate(sale.updated_at)}`}
-                          >
-                            <div className='badge badge-success'>Edited</div>
-                          </ToolTipElement>
-                        )}
-                      </td>
-                    </tr>
-                  )
-              )}
-            </tbody>
-          </table>
+      <div className='mt-3 row'>
+        <div className='w-100 row justify-content-end mb-2'>
+          <div className='form-group'>
+            <SelectPeriod
+              selectedPeriod={period}
+              updatePeriod={(period) => this.updateFilter({period})}
+            />
+          </div>
+        </div>
+        <Counter
+          title='Bar Sales'
+          icon='fa fa-glass-cheers'
+          displayValue={totals.bar_sales_count}
+        />
+        <Counter
+          title='Restaurant Sales'
+          icon='fa fa-utensils'
+          displayValue={totals.restaurant_sales_count}
+        />
+        <Counter
+          title={
+            totals.restaurant_profit > 0
+              ? 'Gross Restaurant Profit'
+              : 'Gross Restaurant Loss'
+          }
+          icon='fa fa-dollar'
+          displayValue={
+            <span
+              className={
+                totals.restaurant_profit > 0 ? 'text-success' : 'text-danger'
+              }
+            >
+              {Math.abs(totals.restaurant_profit).toFixed(1) + '%'}
+            </span>
+          }
+        />
+
+        <Counter
+          title={totals.bar_profit > 0 ? 'Gross Bar Profit' : 'Gross Bar Loss'}
+          icon='fa fa-dollar'
+          displayValue={
+            <span
+              className={totals.bar_profit > 0 ? 'text-success' : 'text-danger'}
+            >
+              {Math.abs(totals.bar_profit).toFixed(1) + '%'}
+            </span>
+          }
+        />
+
+        <Counter
+          title='Bar Stock Worth'
+          icon='fa fa-dollar'
+          displayValue={totals.bar_stock_worth}
+        />
+        <Counter
+          title='Restaurant Stock Worth'
+          icon='fa fa-dollar'
+          displayValue={totals.restaurant_stock_worth}
+        />
+        <Counter
+          title={<span className='text-danger'>Out of Stock!</span>}
+          icon='fa fa-exclamation-triangle'
+          displayValue={totals.out_of_stock}
+          extraTitle='(Bar)'
+        />
+        <Counter
+          title='Average Sales '
+          extraTitle='Per day (Bar & Restaurant)'
+          icon='fa fa-cart-arrow-down'
+          displayValue={totals.average_daily_sales}
+        />
+        <hr className='w-100 border border-secondary' />
+        <div className='col-xl-6 col-xxl-6 col-lg-12 col-md-12'>
+          <SalesGraph
+            barSales={totals.bar_sales || []}
+            restaurantSales={totals.restaurant_sales || []}
+            period={period}
+          />
+        </div>
+        <div class='col-xl-6 col-xxl-6 col-lg-12  col-lg-9 col-md-12'>
+          <BestSelling bestSelling={totals.best_selling || []} />
         </div>
       </div>
     );

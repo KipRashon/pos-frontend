@@ -7,9 +7,10 @@ import {
 import {getFromLocal} from '../../services/utility';
 import './process-transaction.scss';
 import {trackPromise} from 'react-promise-tracker';
+import {places} from '../../services/constants';
 
 export default function ProcessTransaction(props) {
-  const {selectedItem, handleAddToCart} = props;
+  const {selectedItem, handleAddToCart, place} = props;
   const [pricings, setPricings] = useState([]);
   const [count, setCount] = useState(0);
   const [selectedForCart, setSelectedForCart] = useState({
@@ -63,6 +64,7 @@ export default function ProcessTransaction(props) {
       </div>
     );
   }
+
   return (
     <div className='process-section'>
       <h1 className='text-center text-dark text-uppercase mb-4'>
@@ -123,14 +125,26 @@ export default function ProcessTransaction(props) {
             </div>
           </div>
 
-          <div
-            className='mt-4 row justify-content-center'
-            onClick={handleAddCart}
-          >
-            <button className='btn btn-primary text-uppercase p-2 col-6'>
-              Add To Cart
-            </button>
-          </div>
+          {(!pricingItem.quantity_remaining &&
+            parseInt(place) === places.BAR) ||
+          (pricingItem.quantity_remaining &&
+            parseInt(pricingItem.quantity_remaining) <
+              parseInt(selectedForCart.quantity) &&
+            parseInt(place) === places.BAR) ? (
+            <div className=' badge badge-danger text-white p-1 w-100'>
+              <h1 className='text-center'>Oops !</h1>
+              <h5 className='text-center'>This product is out of quantity!</h5>
+            </div>
+          ) : (
+            <div
+              className='mt-4 row justify-content-center'
+              onClick={handleAddCart}
+            >
+              <button className='btn btn-primary text-uppercase p-2 col-6'>
+                Add To Cart
+              </button>
+            </div>
+          )}
         </>
       ) : (
         <div className='add-subtract bg-danger text-white p-2'>

@@ -12,6 +12,7 @@ import {
   formatDate,
   getDateTimeAgo,
   getFormattedMeasure,
+  getFromLocal,
 } from '../../../services/utility';
 import withTemplate from '../with-template';
 
@@ -60,6 +61,7 @@ class Pricing extends Component {
   addPricing = () => {
     const {selectedPricing} = this.state;
     let goodId = this.props.match.params.id;
+    const currentUser = getFromLocal('currentUser') || {};
 
     let url = 'pricings',
       successMessage = 'Price added successfully';
@@ -72,9 +74,13 @@ class Pricing extends Component {
     trackPromise(
       handleError(
         handleSuccess(
-          sendPostRequest(url, selectedPricing),
+          sendPostRequest(url, {
+            ...selectedPricing,
+            updated_by: `${currentUser.firstname} ${currentUser.lastname}`,
+          }),
           successMessage
         ).then((res) => {
+          this.setState({selectedPricing: {}});
           this.getPricings();
         })
       )
@@ -91,6 +97,22 @@ class Pricing extends Component {
           sendPostRequest(`pricings/${pricing.id}/delete`)
         ).then((res) => this.getPricings())
       )
+    );
+  };
+
+  displayProfileLossBadge = (buyingPrice, selllingPrice) => {
+    let percent = ((selllingPrice - buyingPrice) / buyingPrice) * 100;
+    let badgeClass = 'badge badge-danger ml-2',
+      displayText = 'loss';
+    if (percent >= 0) {
+      badgeClass = ' badge badge-success ml-2';
+      displayText = 'profit';
+    }
+
+    return (
+      <span className={badgeClass}>
+        {Math.abs(percent.toFixed(2)) + '% ' + displayText}
+      </span>
     );
   };
   render() {
@@ -110,7 +132,7 @@ class Pricing extends Component {
                   onChange={(e) =>
                     this.updatePropChange({unit: e.target.value})
                   }
-                  value={selectedPricing.unit}
+                  value={selectedPricing.unit || ''}
                 >
                   <option value=''>Select Unit</option>
                   <option value='ml'>ML</option>
@@ -125,9 +147,21 @@ class Pricing extends Component {
                   type='text'
                   className='form-control'
                   placeholder='Eg 1/4'
-                  value={selectedPricing.measure}
+                  value={selectedPricing.measure || ''}
                   onChange={(e) =>
                     this.updatePropChange({measure: e.target.value})
+                  }
+                />
+              </div>
+              <div className='form-group ml-1'>
+                <label htmlFor=''>Buying Price</label>
+                <input
+                  type='text'
+                  className='form-control'
+                  placeholder=' Eg 200'
+                  value={selectedPricing.buying_price || ''}
+                  onChange={(e) =>
+                    this.updatePropChange({buying_price: e.target.value})
                   }
                 />
               </div>
@@ -137,7 +171,7 @@ class Pricing extends Component {
                   type='text'
                   className='form-control'
                   placeholder=' Eg 300'
-                  value={selectedPricing.amount}
+                  value={selectedPricing.amount || ''}
                   onChange={(e) =>
                     this.updatePropChange({amount: e.target.value})
                   }
@@ -149,17 +183,22 @@ class Pricing extends Component {
                   type='text'
                   className='form-control'
                   placeholder=' Eg 400'
-                  value={selectedPricing.online_price}
+                  value={selectedPricing.online_price || ''}
                   onChange={(e) =>
                     this.updatePropChange({online_price: e.target.value})
                   }
                 />
               </div>
-              <div className='form-group ml-2 mt-2 col-3'>
+              <div className='form-group ml-2 mt-2 '>
                 <button
                   className='btn btn-primary mt-4 w-100'
                   onClick={this.addPricing}
                 >
+                  {selectedPricing.id ? (
+                    <i className='fa fa-edit mr-2'></i>
+                  ) : (
+                    <i className='fa fa-plus mr-2'></i>
+                  )}
                   {selectedPricing.id ? 'Update' : 'Add'}
                 </button>
               </div>
@@ -175,6 +214,7 @@ class Pricing extends Component {
                   <tr>
                     <th>#</th>
                     <th>Measure</th>
+                    <th>Buying Price</th>
                     <th>Retail Price</th>
                     <th>Online Price</th>
                     <th>Created</th>
@@ -188,8 +228,22 @@ class Pricing extends Component {
                       <td>
                         {getFormattedMeasure(pricing.unit, pricing.measure)}
                       </td>
-                      <td>{'Ksh ' + pricing.amount}</td>
-                      <td>{'Ksh ' + pricing.online_price}</td>
+                      <td>{'Ksh ' + pricing.buying_price}</td>
+                      <td>
+                        {'Ksh ' + pricing.amount}
+                        {this.displayProfileLossBadge(
+                          pricing.buying_price,
+                          pricing.amount
+                        )}
+                      </td>
+
+                      <td>
+                        {'Ksh ' + pricing.online_price}
+                        {this.displayProfileLossBadge(
+                          pricing.buying_price,
+                          pricing.online_price
+                        )}
+                      </td>
                       <td>
                         <span title={formatDate(pricing.created_at)}>
                           {getDateTimeAgo(pricing.created_at)}

@@ -3,18 +3,16 @@ import {Link} from 'react-router-dom';
 
 export default function SideBar() {
   return (
-    <nav
-      id='sidebarMenu'
-      className='col-md-3 col-lg-2 d-md-block bg-light sidebar collapse'
-    >
-      <div className='sidebar-sticky pt-3'>
-        <ul className='nav flex-column'>
+    <div class='deznav'>
+      <div class='deznav-scroll'>
+        <div class='metismenu' id='menu'>
           <li className='nav-item'>
             <Link to={'/admin'} className='nav-link  '>
               <span data-feather='home'></span>
               Dashboard <span className='sr-only'>(current)</span>
             </Link>
           </li>
+
           <li className='nav-item'>
             <Link to={'/admin/admins'} className='nav-link'>
               <span data-feather='file'></span>
@@ -33,6 +31,12 @@ export default function SideBar() {
               Categories
             </Link>
           </li>
+          <li className='nav-item'>
+            <Link to={'/admin/stock'} className='nav-link'>
+              <span data-feather='users'></span>
+              Stock
+            </Link>
+          </li>
 
           <li className='nav-item'>
             <Link to={'/admin/sales'} className='nav-link'>
@@ -40,8 +44,8 @@ export default function SideBar() {
               Sale History
             </Link>
           </li>
-        </ul>
+        </div>
       </div>
-    </nav>
+    </div>
   );
 }

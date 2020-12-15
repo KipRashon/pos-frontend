@@ -175,6 +175,7 @@ class EmployeeDashboard extends Component {
             let quantities = [];
             let measures = [];
             let prices = [];
+            let ids = [];
 
             cartItems.forEach((item) => {
               goods.push(item.id);
@@ -183,6 +184,7 @@ class EmployeeDashboard extends Component {
                 getFormattedMeasure(item.price.unit, item.price.measure)
               );
               prices.push(`Ksh ${item.price.amount}`);
+              ids.push(item.price.id);
             });
 
             trackPromise(
@@ -194,6 +196,8 @@ class EmployeeDashboard extends Component {
                     prices,
                     measures,
                     sale_id: saleResp.id,
+                    sold_by: `${currentUser.firstname} ${currentUser.lastname}`,
+                    ids,
                   }),
                   successMessage
                 ).then((res) => {
@@ -304,6 +308,7 @@ class EmployeeDashboard extends Component {
               <ProcessTransaction
                 selectedItem={selectedItem}
                 handleAddToCart={this.handleAddToCart}
+                place={this.props.match.params.id}
               />
             </div>
             <div className='col-sm'>
