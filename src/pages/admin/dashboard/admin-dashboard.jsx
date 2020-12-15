@@ -114,7 +114,7 @@ class AdminDashboard extends Component {
           title='Average Sales '
           extraTitle='Per day (Bar & Restaurant)'
           icon='fa fa-cart-arrow-down'
-          displayValue={totals.average_daily_sales}
+          displayValue={Math.ceil(totals.average_daily_sales)}
         />
         <hr className='w-100 border border-secondary' />
         <div className='col-xl-6 col-xxl-6 col-lg-12 col-md-12'>

@@ -1,12 +1,23 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import {getFromLocal, removeFromLocalStorage} from '../../services/utility';
+import $ from 'jquery';
 
 export default function Header(props) {
   const handleLogout = () => {
     removeFromLocalStorage('currentUser');
     props.history.push('/');
   };
+
+  useEffect(() => {
+    $('.nav-control').on('click', function () {
+      $('#main-wrapper').toggleClass('menu-toggle');
+
+      $('.hamburger').toggleClass('is-active');
+      $('.deznav').toggleClass('d-none');
+      $('.content-body').toggleClass('ml-0');
+    });
+  }, []);
 
   let currentUser = getFromLocal('currentUser');
   return (
