@@ -3,13 +3,6 @@ export const user_types = {
   ADMIN: 1,
 };
 
-export const CONFIG = {
-  env: process.env.REACT_APP_APP_ENV,
-  is_production: process.env.REACT_APP_APP_ENV.toLowerCase() === 'production',
-  app: process.env.REACT_APP_APP_NAME,
-  api_url: process.env.REACT_APP_API_URL,
-};
-
 export const places = {
   RESTAURANT: 1,
   BAR: 2,
