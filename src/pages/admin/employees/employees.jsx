@@ -71,7 +71,10 @@ class Employees extends Component {
           </button>
         </div>
         <div className='table-responsive'>
-          <table className='table table-striped table-sm'>
+          <table
+            className='table display table-hover table-striped datatable'
+            style={{width: '100%'}}
+          >
             <thead>
               <tr>
                 <th>#</th>

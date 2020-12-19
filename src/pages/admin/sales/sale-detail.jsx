@@ -40,7 +40,10 @@ function SaleDetail(props) {
       </div>
       <div className='row justify-content-center pr-2 pl-2'>
         <div className='table-responsive'>
-          <table className='table table-bordered table-hover'>
+          <table
+            className='table display table-hover table-striped datatable'
+            style={{width: '100%'}}
+          >
             <thead>
               <tr>
                 <th>#</th>

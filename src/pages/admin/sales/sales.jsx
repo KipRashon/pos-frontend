@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {trackPromise} from 'react-promise-tracker';
 import {Link} from 'react-router-dom';
+import SelectPeriod from '../../../components/select-period/select-period';
 import ToolTipElement from '../../../components/tooltip/tooltip-element';
 import {
   handleError,
@@ -8,8 +9,10 @@ import {
   sendGetRequest,
   sendPostRequest,
 } from '../../../services/api-handle';
+import {time_periods} from '../../../services/constants';
 import {
   formatDate,
+  formatUrl,
   getFormattedAmount,
   getFromLocal,
 } from '../../../services/utility';
@@ -20,16 +23,20 @@ class Sales extends Component {
     super(props);
     this.state = {
       sales: [],
+      period: time_periods.ALL_TIME.value,
     };
   }
 
   updateData = () => {
+    const {period} = this.state;
     trackPromise(
       handleError(
-        handleSuccess(sendGetRequest('sales')).then((res) => {
-          let sales = res.data.sales;
-          this.setState({sales});
-        })
+        handleSuccess(sendGetRequest(formatUrl('sales', {period}))).then(
+          (res) => {
+            let sales = res.data.sales;
+            this.setState({sales});
+          }
+        )
       )
     );
   };
@@ -51,18 +58,28 @@ class Sales extends Component {
       )
     );
   };
+
+  updateFilter = (obj) => {
+    this.setState({...this.state, ...obj}, () => this.updateData());
+  };
   render() {
-    const {sales} = this.state;
+    const {sales, period} = this.state;
     return (
       <div className='mt-3'>
-        <h2>
-          Sales
-          <small className='float-right'>
-            <span className='badge badge-success'>Total- {sales.length}</span>
-          </small>
-        </h2>
+        <h2>Sales</h2>
+        <div className='w-100 row justify-content-end mb-2'>
+          <div className='form-group'>
+            <SelectPeriod
+              selectedPeriod={period}
+              updatePeriod={(period) => this.updateFilter({period})}
+            />
+          </div>
+        </div>
         <div className='table-responsive'>
-          <table className='table table-striped table-sm'>
+          <table
+            className='table display table-hover table-striped datatable'
+            style={{width: '100%'}}
+          >
             <thead>
               <tr>
                 <th>#</th>

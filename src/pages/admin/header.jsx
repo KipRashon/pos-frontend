@@ -76,7 +76,10 @@ export default function Header(props) {
                     </div>
                   </a>
                   <div class='dropdown-menu dropdown-menu-right'>
-                    <a href='app-profile.html' class='dropdown-item ai-icon'>
+                    <a
+                      href='app-profile.html'
+                      class='dropdown-item ai-icon d-none'
+                    >
                       <svg
                         id='icon-user1'
                         xmlns='http://www.w3.org/2000/svg'
@@ -95,7 +98,10 @@ export default function Header(props) {
                       </svg>
                       <span class='ml-2'>Profile </span>
                     </a>
-                    <a href='email-inbox.html' class='dropdown-item ai-icon'>
+                    <a
+                      href='email-inbox.html'
+                      class='dropdown-item ai-icon d-none'
+                    >
                       <svg
                         id='icon-inbox'
                         xmlns='http://www.w3.org/2000/svg'

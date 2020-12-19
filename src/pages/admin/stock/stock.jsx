@@ -21,6 +21,7 @@ class Stock extends Component {
       stock: [],
       showAddStock: false,
       selectedStock: {},
+      isAddEdit: false,
     };
   }
 
@@ -63,15 +64,29 @@ class Stock extends Component {
   };
 
   onEdit = (selectedStock) => {
-    this.setState({selectedStock, showAddStock: true});
+    this.setState({selectedStock, showAddStock: true, isAddEdit: true});
+  };
+
+  onAddStock = (selectedStock) => {
+    this.setState({selectedStock, showAddStock: true, isAddEdit: false});
   };
 
   toggleShowAdd = () => {
-    this.setState({showAddStock: !this.state.showAddStock, selectedStock: {}});
+    this.setState({
+      showAddStock: !this.state.showAddStock,
+      selectedStock: {},
+      isAddEdit: true,
+    });
   };
 
   render() {
-    const {selectedPlace, stock, showAddStock, selectedStock} = this.state;
+    const {
+      selectedPlace,
+      stock,
+      showAddStock,
+      selectedStock,
+      isAddEdit,
+    } = this.state;
     return (
       <div className='mt-3'>
         <h2>Stock</h2>
@@ -81,6 +96,7 @@ class Stock extends Component {
             handleCloseModal={this.toggleShowAdd}
             updateData={this.updateData}
             selectedPlace={selectedPlace}
+            isAddEdit={isAddEdit}
           />
         )}
         <div className='row '>
@@ -130,7 +146,10 @@ class Stock extends Component {
           </div>
         </div>
         <div className='table-responsive'>
-          <table className='table table-striped table-sm'>
+          <table
+            className='table display table-hover table-striped datatable'
+            style={{width: '100%'}}
+          >
             <thead>
               <tr>
                 <th>#</th>
@@ -156,15 +175,22 @@ class Stock extends Component {
                     </Link>
                   </td>
                   <td>{item.quantity}</td>
-                  <td>{'Ksh ' + item.buying_price || '_'}</td>
+                  <td>
+                    {item.buying_price ? 'Ksh ' + item.buying_price : '_'}
+                  </td>
                   <td>{'Ksh ' + item.price}</td>
                   <td>
                     <div className='d-flex justify-content-center w-75'>
+                      {selectedPlace === places.RESTAURANT ? (
+                        <TableIcon onClick={() => this.onEdit(item)}>
+                          <i className='fa fa-edit'></i>
+                        </TableIcon>
+                      ) : null}
+                      <TableIcon onClick={() => this.onAddStock(item)}>
+                        <i className='fa fa-plus'></i>
+                      </TableIcon>
                       <TableIcon onClick={() => this.onDelete(item)}>
                         <i className='fa fa-trash'></i>
-                      </TableIcon>
-                      <TableIcon onClick={() => this.onEdit(item)}>
-                        <i className='fa fa-edit'></i>
                       </TableIcon>
                     </div>
                   </td>

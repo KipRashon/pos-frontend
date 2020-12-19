@@ -70,6 +70,13 @@ export default function ProcessTransaction(props) {
       <h1 className='text-center text-dark text-uppercase mb-4'>
         {selectedItem.name}
       </h1>
+      {parseInt(place) === places.BAR ? (
+        <p className='text-center'>
+          <small className='mt-2 text-secondary text-center '>
+            Remaining Quantity: {pricingItem.quantity_remaining}
+          </small>
+        </p>
+      ) : null}
 
       {pricings.length ? (
         <>

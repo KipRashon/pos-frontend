@@ -18,7 +18,7 @@ function EmployeeWelcome(props) {
       </h1>
       <div
         className='col-md-8 pt-4 shadow shadow-dark   link emp-menu'
-        style={{height: '80px'}}
+        style={{height: '75px'}}
         onClick={() => props.history.push(`/employee/dashboard/${places.BAR}`)}
       >
         <h5>
@@ -27,7 +27,7 @@ function EmployeeWelcome(props) {
       </div>
       <div
         className='col-md-8 pt-4 shadow shadow-dark   link emp-menu'
-        style={{height: '80px'}}
+        style={{height: '75px'}}
         onClick={() =>
           props.history.push(`/employee/dashboard/${places.RESTAURANT}`)
         }
@@ -38,13 +38,23 @@ function EmployeeWelcome(props) {
       </div>
       <div
         className='col-md-8 pt-4 shadow shadow-dark   link emp-menu'
-        style={{height: '80px'}}
+        style={{height: '75px'}}
         onClick={() =>
           props.history.push(`/employee/sales/${places.RESTAURANT}`)
         }
       >
         <h5>
           Sale History <i className='float-right fas fa-history'></i>
+        </h5>
+      </div>
+
+      <div
+        className='col-md-8 pt-4 shadow shadow-dark   link emp-menu'
+        style={{height: '75px'}}
+        onClick={() => props.history.push(`/employee/stock`)}
+      >
+        <h5>
+          Stock <i className='float-right fas fa-cart-plus'></i>
         </h5>
       </div>
     </div>

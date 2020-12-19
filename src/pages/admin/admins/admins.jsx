@@ -10,6 +10,7 @@ import {
 import {formatDate, getDateTimeAgo} from '../../../services/utility';
 import withTemplate from '../with-template';
 import AddAdmin from './add-admin';
+import $ from 'jquery';
 
 class Admins extends Component {
   constructor(props) {
@@ -71,7 +72,10 @@ class Admins extends Component {
           </button>
         </div>
         <div className='table-responsive'>
-          <table className='table table-striped table-sm'>
+          <table
+            className='table display table-hover table-striped datatable'
+            style={{width: '100%'}}
+          >
             <thead>
               <tr>
                 <th>#</th>

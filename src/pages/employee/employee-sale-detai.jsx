@@ -28,42 +28,55 @@ function EmployeeSaleDetail(props) {
     );
   }, []);
   return (
-    <div className='container-fluid p-2 ml-2 mr-2'>
-      <h4 className='text-center'>Sale Details</h4>
-      <div className='p-2 col-12 row'>
-        <div className='col'>
-          Sold By : {`${sale.firstname} ${sale.lastname}`}
-        </div>
-        <div className='col'>Date: {formatDate(sale.created_at)}</div>
-        <div className='col'>Goods: {history.length}</div>
-        <div className='col'>Total: {sale.total}</div>
-      </div>
-      <div className='row justify-content-center pr-2 pl-2'>
-        <div className='table-responsive'>
-          <table className='table table-bordered table-hover'>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Quantity</th>
-                <th>Measure</th>
-                <th>Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              {history.map((sale, index) => (
-                <tr key={sale.id}>
-                  <td>{++index}</td>
-                  <td>{sale.good_name}</td>
-                  <td>{sale.category_name}</td>
-                  <td>{sale.quantity}</td>
-                  <td>{sale.measure}</td>
-                  <td>{sale.price}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+    <div className='container-fluid'>
+      <div className='row'>
+        <div className='col-12'>
+          <div className='card'>
+            <div className='card-body border-bottom-0 gradient-3'>
+              <h1 className='text-center jumbotron w-100 bg-transparent'>
+                Sale Details
+              </h1>
+              <br />
+              <div className='p-2  row'>
+                <div className='col text-white'>
+                  Sold By : {`${sale.firstname} ${sale.lastname}`}
+                </div>
+                <div className='col text-white'>
+                  Date: {formatDate(sale.created_at)}
+                </div>
+                <div className='col text-white'>Goods: {history.length}</div>
+                <div className='col text-white'>Total: {sale.total}</div>
+              </div>
+            </div>
+            <div className='card-body'>
+              <div className='table-responsive'>
+                <table className='table table-bordered table-hover'>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Category</th>
+                      <th>Quantity</th>
+                      <th>Measure</th>
+                      <th>Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {history.map((sale, index) => (
+                      <tr key={sale.id}>
+                        <td>{++index}</td>
+                        <td>{sale.good_name}</td>
+                        <td>{sale.category_name}</td>
+                        <td>{sale.quantity}</td>
+                        <td>{sale.measure}</td>
+                        <td>{sale.price}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

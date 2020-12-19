@@ -24,6 +24,7 @@ import ReceiptPrint from './components/receipt/receipt-print';
 import Stock from './pages/admin/stock/stock';
 import stock from './pages/admin/stock/stock';
 import StockHistory from './pages/admin/stock/stock-history';
+import EmployeeStock from './pages/employee/employee-stock';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -56,6 +57,11 @@ function Routes() {
           exact
           path='/employee/sales/:place'
           render={(props) => <EmployeeSales {...props} />}
+        ></Route>
+        <Route
+          exact
+          path='/employee/stock'
+          render={(props) => <EmployeeStock {...props} />}
         ></Route>
         <Route
           exact

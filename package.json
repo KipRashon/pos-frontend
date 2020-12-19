@@ -13,6 +13,7 @@
     "axios": "^0.21.0",
     "bootstrap": "^4.5.3",
     "bootstrap-select": "^1.13.18",
+    "datatables.net-dt": "^1.10.22",
     "global": "^4.4.0",
     "html2canvas": "^1.0.0-rc.7",
     "jquery": "^3.5.1",

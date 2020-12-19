@@ -9,6 +9,7 @@ import Popper from 'popper.js';
 import 'bootstrap';
 import 'bootstrap-select';
 import 'global';
+import 'datatables.net-dt'
 import './services/common';
 import './sass/app.scss';
 

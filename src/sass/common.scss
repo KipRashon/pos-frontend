@@ -90,8 +90,11 @@
 }
 
 .emp-menu:hover {
-  color: #fff;
+  color: #fff !important;
   background-color: #000;
+  h5 {
+    color: #fff !important;
+  }
 }
 @media print {
   .hidden-print,
