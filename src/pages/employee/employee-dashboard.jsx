@@ -54,6 +54,8 @@ class EmployeeDashboard extends Component {
               transaction_code: sale.transaction_code,
               sale_id: sale.id,
               customer_change: sale.customer_change,
+              mpesa_pay: sale.mpesa_pay,
+              cash_pay: sale.cash_pay,
             };
             this.setState({cartItems, payment});
           })

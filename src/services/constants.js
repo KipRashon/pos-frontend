@@ -11,11 +11,13 @@ export const places = {
 export const payment_methods = [
   'Cash',
   'Mpesa',
+  'Mpesa & Cash',
   'Card',
   'Glovo',
   'Jumia',
   'Uber Eats',
   'Little Cab',
+  'Credit',
 ];
 
 export const printer_widths = {

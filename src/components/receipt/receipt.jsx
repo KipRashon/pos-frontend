@@ -5,11 +5,18 @@ import {
   places,
   printer_widths,
 } from '../../services/constants';
-import {getFormattedAmount, getFormattedMeasure} from '../../services/utility';
+import {
+  getFormattedAmount,
+  getFormattedMeasure,
+  removeOptionalFields,
+} from '../../services/utility';
+import Modal from '../modal/modal';
 
 function Receipt(props) {
   const {cartItems, removeFromCart, handleSale, place, payObj} = props;
   const [useOnlinePrice, setUseOnlinePrice] = useState(false);
+  const [showMpesaCash, setShowMpesaCash] = useState(false);
+  const [showCredit, setShowCredit] = useState(false);
 
   const getRawTotalAmount = () => {
     if (cartItems.length) {
@@ -62,14 +69,41 @@ function Receipt(props) {
     };
 
     methods = removeFromArray(
-      'Mpesa',
-      removeFromArray('Cash', removeFromArray('Card', methods))
+      'Credit',
+      removeFromArray(
+        'Mpesa',
+        removeFromArray('Cash', removeFromArray('Card', methods))
+      )
     );
     return methods.includes(method);
   };
 
+  useEffect(() => {
+    // eslint-disable-next-line eqeqeq
+    if (payment.payment_method == 'Mpesa & Cash') {
+      setShowMpesaCash(true);
+      // eslint-disable-next-line eqeqeq
+    } else if (payment.payment_method == 'Credit') {
+      setPayment({...payment, customer_pay: 0, customer_change: 0});
+      setShowCredit(true);
+    } else {
+      setShowMpesaCash(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [payment.payment_method]);
+
   return (
     <div className='card bg-transparent border-0'>
+      {showCredit && (
+        <GetCreditDetails
+          handleCloseModal={() => {
+            setShowCredit(false);
+          }}
+          handleSave={(creditor) => {
+            setPayment({...payment, ...creditor});
+          }}
+        />
+      )}
       <h4 className='text-uppercase text-center mb-3'>Receipt</h4>
       {cartItems.map((item) => (
         <Item
@@ -133,22 +167,52 @@ function Receipt(props) {
           />
         </div>
       )}
-      <div className='form-group  mt-3'>
-        <label htmlFor=''>Customer Paid</label>
-        <input
-          type='text'
-          className='form-control'
-          placeholder='Amount customer paid'
-          value={payment.customer_pay}
-          onChange={(e) =>
-            setPayment({
-              ...payment,
-              customer_pay: e.target.value,
-              customer_change: parseFloat(e.target.value) - getRawTotalAmount(),
-            })
-          }
-        />
-      </div>
+      {showMpesaCash ? (
+        <>
+          <div className='form-group mt-3'>
+            <label htmlFor=''>Mpesa amount</label>
+            <input
+              type='number'
+              className='form-control'
+              placeholder='E.g 300'
+              value={payment.mpesa_pay}
+              onChange={(e) =>
+                setPayment({...payment, mpesa_pay: e.target.value})
+              }
+            />
+          </div>
+          <div className='form-group '>
+            <label htmlFor=''>Cash amount</label>
+            <input
+              type='number'
+              className='form-control'
+              placeholder='E.g 100'
+              value={payment.cash_pay}
+              onChange={(e) =>
+                setPayment({...payment, cash_pay: e.target.value})
+              }
+            />
+          </div>
+        </>
+      ) : (
+        <div className='form-group  mt-3'>
+          <label htmlFor=''>Customer Paid</label>
+          <input
+            type='text'
+            className='form-control'
+            placeholder='Amount customer paid'
+            value={payment.customer_pay}
+            onChange={(e) =>
+              setPayment({
+                ...payment,
+                customer_pay: e.target.value,
+                customer_change:
+                  parseFloat(e.target.value) - getRawTotalAmount(),
+              })
+            }
+          />
+        </div>
+      )}
       <div className='form-group'>
         <label htmlFor=''>Choose Printer</label>
         <select
@@ -170,11 +234,17 @@ function Receipt(props) {
         <button
           className='btn btn-secondary text-uppercase p-1 mr-2'
           onClick={() =>
-            handleSale({
-              ...payment,
-              total: getTotalAmount(),
-              continueToPrint: false,
-            })
+            handleSale(
+              removeOptionalFields(
+                {
+                  ...payment,
+                  total: getTotalAmount(),
+                  sub_total: getRawTotalAmount(),
+                  continueToPrint: false,
+                },
+                ['cash_pay', 'mpesa_pay']
+              )
+            )
           }
         >
           {payment.sale_id ? 'Edit' : 'Confirm'}
@@ -182,11 +252,17 @@ function Receipt(props) {
         <button
           className='btn btn-success text-uppercase p-1 ml-2'
           onClick={() =>
-            handleSale({
-              ...payment,
-              total: getTotalAmount(),
-              continueToPrint: true,
-            })
+            handleSale(
+              removeOptionalFields(
+                {
+                  ...payment,
+                  total: getTotalAmount(),
+                  sub_total: getRawTotalAmount(),
+                  continueToPrint: true,
+                },
+                ['cash_pay', 'mpesa_pay']
+              )
+            )
           }
         >
           {payment.sale_id ? 'Edit' : 'Confirm'} & Print
@@ -231,6 +307,89 @@ function Item(props) {
         </div>
       </div>
     </div>
+  );
+}
+
+function GetCreditDetails(props) {
+  const {handleCloseModal, handleSave} = props;
+  const [creditor, setCreditor] = useState({});
+
+  const handleSaveCreditor = () => {
+    handleSave(creditor);
+    handleCloseModal();
+  };
+
+  const updateCreditor = (obj) => {
+    setCreditor({...creditor, ...obj});
+  };
+
+  return (
+    <Modal>
+      <div className=''>
+        <div className='modal-header'>
+          <div className='h4 text-center'>Creditor Details</div>
+        </div>
+        <div className='modal-body'>
+          <div className='form-group'>
+            <label htmlFor=''>Full Name</label>
+            <input
+              type='text'
+              className='form-control'
+              placeholder='E.g John Doe'
+              value={creditor.creditor_name}
+              onChange={(e) => updateCreditor({creditor_name: e.target.value})}
+            />
+          </div>
+          <div className='form-group'>
+            <label htmlFor=''>Phone Number</label>
+            <input
+              type='text'
+              className='form-control'
+              placeholder='E.g  0702820251'
+              value={creditor.creditor_phone}
+              onChange={(e) => updateCreditor({creditor_phone: e.target.value})}
+            />
+          </div>
+          <div className='form-group'>
+            <label htmlFor=''>Amount</label>
+            <input
+              type='text'
+              className='form-control'
+              placeholder='E.g  200'
+              value={creditor.credit_amount}
+              onChange={(e) => updateCreditor({credit_amount: e.target.value})}
+            />
+          </div>
+          <div className='form-group'>
+            <label htmlFor=''>Reason</label>
+            <textarea
+              name=''
+              id=''
+              cols='30'
+              rows='3'
+              className='form-control'
+              placeholder='Reason to give credit'
+              value={creditor.credit_reason}
+              onChange={(e) => updateCreditor({credit_reason: e.target.value})}
+            ></textarea>
+          </div>
+          <div className='mt-2 mb-2 row justify-content-between pl-2 pr-2'>
+            <button
+              className='btn btn-secondary col-4'
+              onClick={handleCloseModal}
+            >
+              Cancel
+            </button>
+            <button
+              className='btn btn-primary col-4'
+              onClick={handleSaveCreditor}
+            >
+              Done
+            </button>
+          </div>
+        </div>
+      </div>
+    </Modal>
   );
 }
 

@@ -100,3 +100,20 @@ export function getMapDisplayDate(dateStr, timePeriod) {
       return '';
   }
 }
+
+export function removeOptionalFields(obj, optionalFields, includeZeros) {
+  optionalFields.forEach((item) => {
+    if (!obj[item]) {
+      delete obj[item];
+    }
+  });
+  if (includeZeros) {
+    includeZeros.forEach((item) => {
+      let value = obj[item];
+      if (!value && parseInt(value) !== 0) {
+        delete obj[item];
+      }
+    });
+  }
+  return obj;
+}

@@ -120,7 +120,10 @@ export default function Header(props) {
                       </svg>
                       <span class='ml-2'>Inbox </span>
                     </a>
-                    <a href='page-login.html' class='dropdown-item ai-icon'>
+                    <button
+                      onClick={handleLogout}
+                      class='dropdown-item ai-icon'
+                    >
                       <svg
                         id='icon-logout'
                         xmlns='http://www.w3.org/2000/svg'
@@ -141,7 +144,7 @@ export default function Header(props) {
                       <span class='ml-2' onClick={handleLogout}>
                         Logout{' '}
                       </span>
-                    </a>
+                    </button>
                   </div>
                 </li>
               </ul>
