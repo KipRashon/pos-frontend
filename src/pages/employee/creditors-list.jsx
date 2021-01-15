@@ -45,6 +45,9 @@ export default function CreditorsList(props) {
   useEffect(updateData, [period, currentUser.id]);
   return (
     <div className='card w-100'>
+      <div className='card-header'>
+        <h1>Creditors</h1>
+      </div>
       <div className='card-body'>
         <div className='table-responsive'>
           <table

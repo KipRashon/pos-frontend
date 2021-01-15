@@ -11,6 +11,7 @@ import {
 import {time_periods} from '../../services/constants';
 import {formatUrl, getFromLocal} from '../../services/utility';
 import CreditorsList from './creditors-list';
+import ExpensesList from './expenses-list';
 import SalesList from './sales-list';
 import withEmployeeValidation from './with-employee-validation';
 
@@ -61,7 +62,6 @@ function EmployeeSales(props) {
   return (
     <div className='container-fluid ml-2 mr-2'>
       <h2 className='text-center'>
-        Sales for {currentUser.firstname}
         <div className='float-right mx-3'>
           <div className='form-group'>
             <SelectPeriod
@@ -79,16 +79,19 @@ function EmployeeSales(props) {
                 title='Total Sales'
                 icon='fa fa-shopping-cart'
                 displayValue={totals.total_sales || 0}
+                onClick={() => setPage(pages.SALES)}
               />
-              {/* <Counter
+              <Counter
                 title='Total Expenses'
                 icon='fa fa-dollar'
-                displayValue={40}
-              /> */}
+                displayValue={totals.total_expenses}
+                onClick={() => setPage(pages.EXPENSES)}
+              />
               <Counter
                 title='Total Credits in Ksh'
                 icon='fa fa-exclamation-circle'
                 displayValue={totals.total_credit_amount || 0}
+                onClick={() => setPage(pages.CREDITORS)}
               />
               <Counter
                 title='Mpesa '
@@ -104,8 +107,13 @@ function EmployeeSales(props) {
           </div>
         </div>
 
-        <SalesList sales={sales} handleDelete={handleDelete} place={place} />
-        <CreditorsList period={period} currentUser={currentUser} />
+        {page === pages.SALES ? (
+          <SalesList sales={sales} handleDelete={handleDelete} place={place} />
+        ) : page === pages.EXPENSES ? (
+          <ExpensesList period={period} currentUser={currentUser} />
+        ) : (
+          <CreditorsList period={period} currentUser={currentUser} />
+        )}
       </div>
     </div>
   );

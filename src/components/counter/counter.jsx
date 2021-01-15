@@ -1,10 +1,13 @@
 import React from 'react';
 
 export default function Counter(props) {
-  const {icon, title, displayValue, extraTitle} = props;
+  const {icon, title, displayValue, extraTitle, onClick} = props;
 
   return (
-    <div className='col-xl-3 col-xxl-3 col-lg-6 col-md-6 col-sm-6'>
+    <div
+      className='col-xl-3 col-xxl-3 col-lg-6 col-md-6 col-sm-6'
+      onClick={onClick}
+    >
       <div className='widget-stat card'>
         <div className='card-body p-4'>
           <div className='media ai-icon'>

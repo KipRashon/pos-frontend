@@ -7,6 +7,9 @@ export default function SalesList(props) {
   const {sales, handleDelete, place} = props;
   return (
     <div className='card w-100'>
+      <div className='card-header'>
+        <h1>Sales</h1>
+      </div>
       <div className='card-body'>
         <div className='table-responsive'>
           <table
