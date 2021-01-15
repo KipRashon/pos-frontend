@@ -158,7 +158,8 @@ function Receipt(props) {
         <div className='col text-left'>TOTAL</div>
         <div className='col text-center'>{getTotalAmount()}</div>
       </div>
-      {payment.payment_method === 'Mpesa' && (
+      {(payment.payment_method === 'Mpesa' ||
+        payment.payment_method === 'Mpesa & Cash') && (
         <div className='form-group  mt-3'>
           <label htmlFor=''>Transaction Code</label>
           <input
