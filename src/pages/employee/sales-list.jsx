@@ -49,7 +49,16 @@ export default function SalesList(props) {
                       <span>{sale.total}</span>
                     </ToolTipElement>
                   </td>
-                  <td>{sale.payment_method}</td>
+                  <td>
+                    {sale.payment_method}
+                    {sale.transaction_code ? (
+                      <>
+                        <br />
+                        <b>Transaction Code: </b>
+                        {sale.transaction_code}
+                      </>
+                    ) : null}
+                  </td>
                   <td>
                     {getFormattedAmount(sale.customer_pay, 1)}
                     <br />
