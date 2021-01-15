@@ -44,6 +44,18 @@ export default function SideBar() {
               Sale History
             </Link>
           </li>
+          <li className='nav-item'>
+            <Link to={'/admin/expenses'} className='nav-link'>
+              <span data-feather='layers'></span>
+              Expenses
+            </Link>
+          </li>
+          <li className='nav-item'>
+            <Link to={'/admin/debtors'} className='nav-link'>
+              <span data-feather='layers'></span>
+              Debtors
+            </Link>
+          </li>
         </div>
       </div>
     </div>

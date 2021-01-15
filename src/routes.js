@@ -22,9 +22,10 @@ import Sales from './pages/admin/sales/sales';
 import Loader from './components/loader/loader';
 import ReceiptPrint from './components/receipt/receipt-print';
 import Stock from './pages/admin/stock/stock';
-import stock from './pages/admin/stock/stock';
 import StockHistory from './pages/admin/stock/stock-history';
 import EmployeeStock from './pages/employee/employee-stock';
+import Expenses from './pages/admin/expenses/expenses';
+import Debtors from './pages/admin/debtors/debtors';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -98,6 +99,16 @@ function Routes() {
           exact
           path='/admin/sales'
           render={(props) => <Sales {...props} />}
+        ></Route>
+        <Route
+          exact
+          path='/admin/expenses'
+          render={(props) => <Expenses {...props} />}
+        ></Route>
+        <Route
+          exact
+          path='/admin/debtors'
+          render={(props) => <Debtors {...props} />}
         ></Route>
 
         <Route

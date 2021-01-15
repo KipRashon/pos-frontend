@@ -21,7 +21,7 @@ function SaleDetail(props) {
         handleSuccess(sendGetRequest(url)).then((res) => {
           let sale = res.data.sale[0];
           let history = res.data.history;
-          setSale(sale);
+          setSale(sale || {});
           setHistory(history);
         })
       )
