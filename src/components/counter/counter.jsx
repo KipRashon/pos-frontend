@@ -5,7 +5,7 @@ export default function Counter(props) {
 
   return (
     <div
-      className='col-xl-3 col-xxl-3 col-lg-6 col-md-6 col-sm-6'
+      className='col-xl-3 col-xxl-3 col-lg-6 col-md-6 col-sm-6 animate__animated animate__zoomInUp'
       onClick={onClick}
     >
       <div className='widget-stat card'>

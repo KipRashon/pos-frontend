@@ -117,14 +117,14 @@ class AdminDashboard extends Component {
           displayValue={Math.ceil(totals.average_daily_sales)}
         />
         <hr className='w-100 border border-secondary' />
-        <div className='col-xl-6 col-xxl-6 col-lg-12 col-md-12'>
+        <div className='col-xl-6 col-xxl-6 col-lg-12 col-md-12 animate__animated animate__slideInLeft'>
           <SalesGraph
             barSales={totals.bar_sales || []}
             restaurantSales={totals.restaurant_sales || []}
             period={period}
           />
         </div>
-        <div className='col-xl-6 col-xxl-6 col-lg-12  col-lg-9 col-md-12'>
+        <div className='col-xl-6 col-xxl-6 col-lg-12  col-lg-9 col-md-12  animate__animated animate__slideInRight'>
           <BestSelling bestSelling={totals.best_selling || []} />
         </div>
       </div>

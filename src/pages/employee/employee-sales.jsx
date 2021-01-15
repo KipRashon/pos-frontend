@@ -84,7 +84,7 @@ function EmployeeSales(props) {
               <Counter
                 title='Total Expenses'
                 icon='fa fa-dollar'
-                displayValue={totals.total_expenses}
+                displayValue={totals.total_expenses || 0}
                 onClick={() => setPage(pages.EXPENSES)}
               />
               <Counter

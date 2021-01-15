@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {trackPromise} from 'react-promise-tracker';
 import {Link} from 'react-router-dom';
+import Counter from '../../../components/counter/counter';
 import SelectPeriod from '../../../components/select-period/select-period';
 import ToolTipElement from '../../../components/tooltip/tooltip-element';
 import {
@@ -24,6 +25,7 @@ class Sales extends Component {
     this.state = {
       sales: [],
       period: time_periods.ALL_TIME.value,
+      totals: {},
     };
   }
 
@@ -33,8 +35,9 @@ class Sales extends Component {
       handleError(
         handleSuccess(sendGetRequest(formatUrl('sales', {period}))).then(
           (res) => {
-            let sales = res.data.sales;
-            this.setState({sales});
+            let {sales, totals} = res.data;
+            console.log(totals);
+            this.setState({sales, totals});
           }
         )
       )
@@ -63,7 +66,7 @@ class Sales extends Component {
     this.setState({...this.state, ...obj}, () => this.updateData());
   };
   render() {
-    const {sales, period} = this.state;
+    const {sales, period, totals} = this.state;
     return (
       <div className='mt-3'>
         <h2>Sales</h2>
@@ -72,6 +75,35 @@ class Sales extends Component {
             <SelectPeriod
               selectedPeriod={period}
               updatePeriod={(period) => this.updateFilter({period})}
+            />
+          </div>
+        </div>
+        <div className='card-body'>
+          <div className='row justify-content-start'>
+            <Counter
+              title='Total Sales'
+              icon='fa fa-shopping-cart'
+              displayValue={totals.total_sales || 0}
+            />
+            <Counter
+              title='Total Expenses'
+              icon='fa fa-dollar'
+              displayValue={totals.total_expenses || 0}
+            />
+            <Counter
+              title='Total Credits in Ksh'
+              icon='fa fa-exclamation-circle'
+              displayValue={totals.total_credit_amount || 0}
+            />
+            <Counter
+              title='Mpesa '
+              icon='fa fa-dollar'
+              displayValue={totals.mpesa_pay || 0}
+            />
+            <Counter
+              title='Cash'
+              icon='fa fa-money-bill-wave'
+              displayValue={totals.cash_pay || 0}
             />
           </div>
         </div>
