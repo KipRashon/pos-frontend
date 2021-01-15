@@ -64,17 +64,21 @@ function Receipt(props) {
 
   const checkIfUseOnline = (method) => {
     let methods = [...payment_methods];
-    const removeFromArray = (item, arr) => {
-      return arr.filter((it) => it !== item);
+    const removeFromArray = (items, arr) => {
+      let result = [];
+      arr.forEach((item) => {
+        if (!items.find((it) => it === item)) {
+          result.push(item);
+        }
+      });
+      return result;
     };
 
     methods = removeFromArray(
-      'Credit',
-      removeFromArray(
-        'Mpesa',
-        removeFromArray('Cash', removeFromArray('Card', methods))
-      )
+      ['Credit', 'Mpesa', 'Cash', 'Card', 'Mpesa & Cash'],
+      methods
     );
+
     return methods.includes(method);
   };
 
