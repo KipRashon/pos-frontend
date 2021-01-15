@@ -22,8 +22,8 @@ export default function withTemplate(WrappedComponent) {
 
           <SideBar />
 
-          <div class='content-body' style={{minHeight: '100vh'}}>
-            <div class='container-fluid'>
+          <div className='content-body' style={{minHeight: '100vh'}}>
+            <div className='container-fluid'>
               <WrappedComponent {...this.props} />
             </div>
           </div>

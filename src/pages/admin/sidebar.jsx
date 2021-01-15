@@ -3,9 +3,9 @@ import {Link} from 'react-router-dom';
 
 export default function SideBar() {
   return (
-    <div class='deznav'>
-      <div class='deznav-scroll'>
-        <div class='metismenu' id='menu'>
+    <div className='deznav'>
+      <div className='deznav-scroll'>
+        <div className='metismenu' id='menu'>
           <li className='nav-item'>
             <Link to={'/admin'} className='nav-link  '>
               <span data-feather='home'></span>

@@ -124,7 +124,7 @@ class AdminDashboard extends Component {
             period={period}
           />
         </div>
-        <div class='col-xl-6 col-xxl-6 col-lg-12  col-lg-9 col-md-12'>
+        <div className='col-xl-6 col-xxl-6 col-lg-12  col-lg-9 col-md-12'>
           <BestSelling bestSelling={totals.best_selling || []} />
         </div>
       </div>

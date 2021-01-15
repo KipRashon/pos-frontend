@@ -12,12 +12,12 @@ function Modal(props) {
   });
   return (
     <div
-      class='modal animate__animated animate__bounceInUp show'
+      className='modal animate__animated animate__bounceInUp show'
       id='basicModal'
       style={{display: 'block', paddingRight: '19px'}}
     >
-      <div class='modal-dialog' role='document'>
-        <div class='modal-content'>{children}</div>
+      <div className='modal-dialog' role='document'>
+        <div className='modal-content'>{children}</div>
       </div>
     </div>
   );
