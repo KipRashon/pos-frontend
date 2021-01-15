@@ -34,7 +34,7 @@ function Receipt(props) {
         }
         amount +=
           (useOnlinePrice
-            ? parseInt(item.price.online_price)
+            ? parseInt(item.price.online_price) * item.quantity
             : item.price.amount) * item.quantity;
       });
       return amount;
@@ -102,6 +102,7 @@ function Receipt(props) {
           handleSave={(creditor) => {
             setPayment({...payment, ...creditor});
           }}
+          payment={payment}
         />
       )}
       <h4 className='text-uppercase text-center mb-3'>Receipt</h4>
@@ -231,6 +232,15 @@ function Receipt(props) {
         </select>
       </div>
       <div className='mt-4 row justify-content-center '>
+        {payment.payment_method === 'Credit' && payment.creditor_name ? (
+          <button
+            className='btn btn-dark text-uppercase p-1 mx-1'
+            onClick={() => setShowCredit(true)}
+          >
+            <i className='fa fa-edit mr-2'></i>
+            Edit Creditor
+          </button>
+        ) : null}
         <button
           className='btn btn-secondary text-uppercase p-1 mr-2'
           onClick={() =>
@@ -311,9 +321,19 @@ function Item(props) {
 }
 
 function GetCreditDetails(props) {
-  const {handleCloseModal, handleSave} = props;
+  const {handleCloseModal, handleSave, payment} = props;
   const [creditor, setCreditor] = useState({});
 
+  useEffect(() => {
+    if (payment.creditor_name) {
+      setCreditor({
+        creditor_name: payment.creditor_name,
+        creditor_phone: payment.creditor_phone,
+        credit_reason: payment.credit_reason,
+        credit_amount: payment.credit_amount,
+      });
+    }
+  }, [payment]);
   const handleSaveCreditor = () => {
     handleSave(creditor);
     handleCloseModal();
