@@ -108,7 +108,12 @@ function EmployeeSales(props) {
         </div>
 
         {page === pages.SALES ? (
-          <SalesList sales={sales} handleDelete={handleDelete} place={place} />
+          <SalesList
+            sales={sales}
+            handleDelete={handleDelete}
+            place={place}
+            {...props}
+          />
         ) : page === pages.EXPENSES ? (
           <ExpensesList period={period} currentUser={currentUser} />
         ) : (
