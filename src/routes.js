@@ -26,6 +26,7 @@ import StockHistory from './pages/admin/stock/stock-history';
 import EmployeeStock from './pages/employee/employee-stock';
 import Expenses from './pages/admin/expenses/expenses';
 import Debtors from './pages/admin/debtors/debtors';
+import Summary from './pages/admin/summary/summary';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -109,6 +110,11 @@ function Routes() {
           exact
           path='/admin/debtors'
           render={(props) => <Debtors {...props} />}
+        ></Route>
+        <Route
+          exact
+          path='/admin/summary'
+          render={(props) => <Summary {...props} />}
         ></Route>
 
         <Route

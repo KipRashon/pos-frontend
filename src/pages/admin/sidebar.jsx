@@ -56,6 +56,12 @@ export default function SideBar() {
               Debtors
             </Link>
           </li>
+          <li className='nav-item'>
+            <Link to={'/admin/summary'} className='nav-link'>
+              <span data-feather='layers'></span>
+              Summary
+            </Link>
+          </li>
         </div>
       </div>
     </div>
