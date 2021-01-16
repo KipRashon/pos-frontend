@@ -13,7 +13,7 @@ import withTemplate from '../with-template';
 
 function Debtors() {
   const [creditors, setCreditors] = useState([]);
-  const [period, setPeriod] = useState({});
+  const [period, setPeriod] = useState('');
 
   const updateData = () => {
     trackPromise(
@@ -95,14 +95,24 @@ function Debtors() {
                     )}
                   </td>
                   <td>
-                    {!creditor.is_cleared && (
+                    {!creditor.is_cleared ? (
                       <button
                         className={`btn btn-success mx-1`}
                         onClick={() => handleClear(creditor)}
                       >
+                        <i className='fa fa-check mr-2'></i>
                         Clear
                       </button>
+                    ) : (
+                      <button
+                        className='btn btn-warning'
+                        onClick={() => handleClear(creditor)}
+                      >
+                        <i className='fa fa-refresh mr-2'></i>
+                        Revive
+                      </button>
                     )}
+
                     <Link
                       to={`/admin/sales/view/${creditor.sale_id}`}
                       className='btn btn-dark mx-1'
