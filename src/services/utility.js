@@ -98,7 +98,7 @@ export function getMapDisplayDate(dateStr, timePeriod) {
     case time_periods.THIS_YEAR.value:
       return date.format('MMM');
     default:
-      return 'MMM';
+      return date.format('MMM');
   }
 }
 
