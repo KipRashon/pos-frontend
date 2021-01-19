@@ -89,6 +89,7 @@ export function getMapDisplayDate(dateStr, timePeriod) {
   let date = moment(dateStr);
   switch (timePeriod) {
     case time_periods.TODAY.value:
+    case time_periods.YESTERDAY.value:
       return date.format('h a');
     case time_periods.THIS_WEEK.value:
       return date.format('ddd');
@@ -97,7 +98,7 @@ export function getMapDisplayDate(dateStr, timePeriod) {
     case time_periods.THIS_YEAR.value:
       return date.format('MMM');
     default:
-      return '';
+      return 'MMM';
   }
 }
 
