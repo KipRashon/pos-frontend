@@ -10,9 +10,9 @@
   th,
   tr,
   table {
-    border-top: 1px solid black;
     border-collapse: collapse;
-    font-weight: bold !important;
+    border-top: 1px solid black;
+    font-size: 23px;
   }
 
   #till-number {
@@ -22,8 +22,9 @@
 
   table {
     border-spacing: 0;
-    border-color: #000;
+    border-color: transparent;
     width: 100%;
+    border: 0 !important;
   }
   th {
     font-weight: bolder;
@@ -31,9 +32,9 @@
     padding: 4px;
   }
   td {
-    font-weight: bold;
+    font-weight: normal;
     padding: 4px;
-    font-size: 16px;
+    font-size: 20px;
   }
 
   td.description {

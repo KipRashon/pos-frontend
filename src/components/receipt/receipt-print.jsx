@@ -94,8 +94,8 @@ export default function ReceiptPrint(props) {
                 <td className='price'>{item.price.amount * item.quantity}</td>
               </tr>
             ))}
-            <tr>
-              <td className='description  totals' colSpan='2'>
+            <tr style={{paddingTop: '30px', borderTop: '1px solid #000'}}>
+              <td className='description  totals' colSpan='1'>
                 Total
               </td>
               <td className='price  font-weight-bolder totals' colSpan='2'>
@@ -103,7 +103,7 @@ export default function ReceiptPrint(props) {
               </td>
             </tr>
             <tr>
-              <td className='description  text-uppercase' colSpan='2'>
+              <td className='description  text-uppercase' colSpan='1'>
                 Customer Pay
               </td>
               <td className='price  font-weight-bolder' colSpan='2'>
@@ -111,7 +111,7 @@ export default function ReceiptPrint(props) {
               </td>
             </tr>
             <tr>
-              <td className='description text-uppercase ' colSpan='2'>
+              <td className='description text-uppercase ' colSpan='1'>
                 Change
               </td>
               <td className='price  font-weight-bolder' colSpan='2'>
@@ -130,7 +130,9 @@ export default function ReceiptPrint(props) {
             ' at ' +
             formatDate(payment.created_at)}
           <br />
-          askscratchkitchen@gmail.com /ig@scratchkitchen
+          askscratchkitchen@gmail.com
+          <br />
+          ig@scratchkitchen
         </p>
       </div>
       <div
