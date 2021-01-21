@@ -70,9 +70,9 @@ export default function ReceiptPrint(props) {
             {count === 1 ? 'CUSTOMER BILL' : 'ORDER'}
           </span>
           <br />
-          <small>
+          <p style={{fontSize: '20px'}}>
             P.O.BOX 102358-00101 NRB TELEPHONE: 0791 482 995/0756936852
-          </small>
+          </p>
           <br />
           <p id='till-number'>Till No. 4028177</p>
         </p>
@@ -120,7 +120,7 @@ export default function ReceiptPrint(props) {
             </tr>
           </tbody>
         </table>
-        <p className='centered text-uppercase' style={{fontSize: '20px'}}>
+        <p className='centered text-uppercase' style={{fontSize: '30px'}}>
           Served by
           <br />
           {' ' +

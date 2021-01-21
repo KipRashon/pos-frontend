@@ -12,7 +12,7 @@
   table {
     border-collapse: collapse;
     border-top: 1px solid black;
-    font-size: 23px;
+    font-size: 25px;
   }
 
   #till-number {
@@ -34,7 +34,7 @@
   td {
     font-weight: normal;
     padding: 4px;
-    font-size: 20px;
+    font-size: 25px;
   }
 
   td.description {
@@ -62,7 +62,7 @@
     align-content: center;
   }
   .totals {
-    font-size: 20px;
+    font-size: 30px;
   }
 
   @media print {
@@ -73,7 +73,7 @@
   }
 
   .titles {
-    font-size: 25px;
+    font-size: 35px;
   }
 }
 

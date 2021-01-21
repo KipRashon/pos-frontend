@@ -67,7 +67,7 @@ export function formatUrl(url, ...args) {
 }
 
 export function getFormattedAmount(amount, quantity) {
-  return `Ksh ${amount * quantity}`;
+  return `${amount * quantity}`;
 }
 
 export function getFormattedMeasure(unit, measure) {
