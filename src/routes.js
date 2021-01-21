@@ -27,6 +27,7 @@ import EmployeeStock from './pages/employee/employee-stock';
 import Expenses from './pages/admin/expenses/expenses';
 import Debtors from './pages/admin/debtors/debtors';
 import Summary from './pages/admin/summary/summary';
+import BarReceipt from './components/receipt/bar-receipt';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -75,6 +76,17 @@ function Routes() {
           path='/employee/print'
           render={(props) => (
             <ReceiptPrint
+              {...props}
+              sale_id={query.get('sale_id')}
+              width={query.get('width')}
+            />
+          )}
+        ></Route>
+        <Route
+          exact
+          path='/employee/print-bar'
+          render={(props) => (
+            <BarReceipt
               {...props}
               sale_id={query.get('sale_id')}
               width={query.get('width')}

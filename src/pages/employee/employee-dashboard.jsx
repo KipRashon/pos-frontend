@@ -19,6 +19,8 @@ import './employee.scss';
 import ReceiptPrint from '../../components/receipt/receipt-print';
 import withEmployeeValidation from './with-employee-validation';
 import {trackPromise} from 'react-promise-tracker';
+import {places} from '../../services/constants';
+import BarReceipt from '../../components/receipt/bar-receipt';
 
 class EmployeeDashboard extends Component {
   constructor(props) {
@@ -204,12 +206,21 @@ class EmployeeDashboard extends Component {
                   successMessage
                 ).then((res) => {
                   if (continueToPrint) {
-                    this.props.history.push(
-                      formatUrl('/employee/print', {
-                        sale_id: saleResp.id,
-                        width: payment.receiptWidth,
-                      })
-                    );
+                    if (this.props.match.params.id == places.BAR) {
+                      this.props.history.push(
+                        formatUrl('/employee/print-bar', {
+                          sale_id: saleResp.id,
+                          width: payment.receiptWidth,
+                        })
+                      );
+                    } else {
+                      this.props.history.push(
+                        formatUrl('/employee/print', {
+                          sale_id: saleResp.id,
+                          width: payment.receiptWidth,
+                        })
+                      );
+                    }
                   } else {
                     this.onAfterPrint();
                   }
@@ -243,6 +254,7 @@ class EmployeeDashboard extends Component {
       payment,
       showPrint,
     } = this.state;
+    let place = this.props.match.params.id;
 
     if (showPrint) {
       return (
@@ -257,7 +269,7 @@ class EmployeeDashboard extends Component {
     return (
       <div className='container-fluid hidden-print'>
         <div className='row'>
-          <Header place={this.props.match.params.id} />
+          <Header place={place} />
 
           <div className='col-md-12 row mt-2 justify-content-center'>
             <div className='col-sm  side-part p-2 section'>
@@ -310,7 +322,7 @@ class EmployeeDashboard extends Component {
               <ProcessTransaction
                 selectedItem={selectedItem}
                 handleAddToCart={this.handleAddToCart}
-                place={this.props.match.params.id}
+                place={place}
               />
             </div>
             <div className='col-sm'>
@@ -318,7 +330,7 @@ class EmployeeDashboard extends Component {
                 cartItems={cartItems}
                 removeFromCart={this.removeFromCart}
                 handleSale={this.handleSale}
-                place={this.props.match.params.id}
+                place={place}
                 payObj={payment}
               />
             </div>
