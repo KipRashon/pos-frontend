@@ -64,17 +64,19 @@ export default function ReceiptPrint(props) {
         id='receipt'
       >
         <p className='centered'>
-          SCRATCH KITCHEN LTD
+          <span className='titles'>SCRATCH KITCHEN LTD</span>
           <br />
-          {count === 1 ? 'CUSTOMER BILL' : 'ORDER'}
+          <span className='titles'>
+            {count === 1 ? 'CUSTOMER BILL' : 'ORDER'}
+          </span>
           <br />
           <small>
             P.O.BOX 102358-00101 NRB TELEPHONE: 0791 482 995/0756936852
           </small>
           <br />
-          <small style={{fontWeight: 'bolder'}}>Till No. 4028177</small>
+          <p id='till-number'>Till No. 4028177</p>
         </p>
-        <table>
+        <table className='my-4'>
           <thead>
             <tr>
               <th className='description'>Description</th>
@@ -93,17 +95,34 @@ export default function ReceiptPrint(props) {
               </tr>
             ))}
             <tr>
-              <td className='description centered' colSpan='2'>
+              <td className='description  totals' colSpan='2'>
                 Total
               </td>
-              <td className='price' colSpan='2'>
+              <td className='price  font-weight-bolder totals' colSpan='2'>
                 {payment.total}
+              </td>
+            </tr>
+            <tr>
+              <td className='description  text-uppercase' colSpan='2'>
+                Customer Pay
+              </td>
+              <td className='price  font-weight-bolder' colSpan='2'>
+                {payment.customer_pay}
+              </td>
+            </tr>
+            <tr>
+              <td className='description text-uppercase ' colSpan='2'>
+                Change
+              </td>
+              <td className='price  font-weight-bolder' colSpan='2'>
+                {payment.customer_change}
               </td>
             </tr>
           </tbody>
         </table>
-        <p className='centered'>
+        <p className='centered text-uppercase' style={{fontSize: '20px'}}>
           Served by
+          <br />
           {' ' +
             payment.firstname +
             ' ' +
