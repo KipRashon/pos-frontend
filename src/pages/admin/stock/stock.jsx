@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {trackPromise} from 'react-promise-tracker';
 import {Link} from 'react-router-dom';
+import Pagination from '../../../components/pagination/pagination';
 import TableIcon from '../../../components/table-icon/table-icon';
 import {
   handleError,
@@ -18,23 +19,25 @@ class Stock extends Component {
     super(props);
     this.state = {
       selectedPlace: places.BAR,
-      stock: [],
+      stock: {data: []},
       showAddStock: false,
       selectedStock: {},
       isAddEdit: false,
+      q: '',
     };
   }
 
-  updateData = () => {
-    trackPromise(
-      handleError(
-        handleSuccess(
-          sendGetRequest(formatUrl('stock', {place: this.state.selectedPlace}))
-        ).then((res) => {
-          let {stock} = res.data;
-          this.setState({stock, selectedStock: {}});
-        })
-      )
+  updateData = (page) => {
+    const {q} = this.state;
+    handleError(
+      handleSuccess(
+        sendGetRequest(
+          formatUrl('stock', {place: this.state.selectedPlace, page, q})
+        )
+      ).then((res) => {
+        let {stock} = res.data;
+        this.setState({stock, selectedStock: {}});
+      })
     );
   };
 
@@ -77,6 +80,10 @@ class Stock extends Component {
       selectedStock: {},
       isAddEdit: true,
     });
+  };
+
+  handleSearch = (e) => {
+    this.setState({q: e.target.value}, () => this.updateData());
   };
 
   render() {
@@ -135,6 +142,14 @@ class Stock extends Component {
             </div>
           </div>
           <div className='col row justify-content-end'>
+            <div className='form-group mx-2'>
+              <input
+                type='text'
+                className='form-control'
+                placeholder='Type to search'
+                onChange={this.handleSearch}
+              />
+            </div>
             {selectedPlace === places.RESTAURANT && (
               <div className='form-group'>
                 <button className='btn btn-info' onClick={this.toggleShowAdd}>
@@ -161,7 +176,7 @@ class Stock extends Component {
               </tr>
             </thead>
             <tbody>
-              {stock.map((item, index) => (
+              {stock.data.map((item, index) => (
                 <tr key={item.id}>
                   <td>{++index}</td>
                   <td>
@@ -198,6 +213,7 @@ class Stock extends Component {
               ))}
             </tbody>
           </table>
+          <Pagination data={stock} updateData={this.updateData} />
         </div>
       </div>
     );

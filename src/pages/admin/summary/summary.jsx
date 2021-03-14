@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {trackPromise} from 'react-promise-tracker';
+import Pagination from '../../../components/pagination/pagination';
 import SelectPeriod from '../../../components/select-period/select-period';
 import {
   handleError,
@@ -12,16 +13,16 @@ import withTemplate from '../with-template';
 
 function Summary() {
   const [period, setPeriod] = useState(time_periods.ALL_TIME.value);
-  const [summary, setSummary] = useState([]);
+  const [summary, setSummary] = useState({data: []});
 
-  const updateData = () => {
+  const updateData = (page) => {
     trackPromise(
       handleError(
-        handleSuccess(sendGetRequest(formatUrl('summary', {period}))).then(
-          (res) => {
-            setSummary(res.data.summary);
-          }
-        )
+        handleSuccess(
+          sendGetRequest(formatUrl('summary', {period, page}))
+        ).then((res) => {
+          setSummary(res.data.summary);
+        })
       )
     );
   };
@@ -40,9 +41,12 @@ function Summary() {
         </div>
       </h1>
 
-      {summary.map((item) => (
+      {summary.data.map((item) => (
         <HistoryItem key={item.id} item={item} />
       ))}
+      <div className='my-2'>
+        <Pagination data={summary} updateData={updateData} />
+      </div>
     </div>
   );
 }
@@ -84,6 +88,14 @@ function HistoryItem(props) {
             <DisplayLabel
               display={item.closing_restaurant_stock}
               label='Closing Restaurant Stock'
+            />
+            <DisplayLabel
+              display={item.gross_bar_profit}
+              label='Gross Bar Profit'
+            />
+            <DisplayLabel
+              display={item.gross_restaurant_profit}
+              label='Gross Restaurant Profit'
             />
           </div>
         </div>

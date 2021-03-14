@@ -123,6 +123,19 @@
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0a907', endColorstr='#f53c79',GradientType=0 );
 }
 
+.autocomplete{
+  position:absolute;
+  z-index:1050;
+  li{
+    border-bottom: 1px solid #ff4f4;
+    cursor:pointer;
+    &:hover{
+      border:1px solid #000;
+      font-size:110%;
+    }
+  }
+}
+
 .gradient-2 {
   background: #4dedf5;
   background: -moz-linear-gradient(top, #4dedf5 0%, #480ceb 100%);

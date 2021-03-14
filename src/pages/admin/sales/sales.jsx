@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {trackPromise} from 'react-promise-tracker';
 import {Link} from 'react-router-dom';
 import Counter from '../../../components/counter/counter';
+import Pagination from '../../../components/pagination/pagination';
 import SelectPeriod from '../../../components/select-period/select-period';
 import ToolTipElement from '../../../components/tooltip/tooltip-element';
 import {
@@ -23,17 +24,17 @@ class Sales extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sales: [],
+      sales: {data: []},
       period: time_periods.ALL_TIME.value,
       totals: {},
     };
   }
 
-  updateData = () => {
+  updateData = (page) => {
     const {period} = this.state;
     trackPromise(
       handleError(
-        handleSuccess(sendGetRequest(formatUrl('sales', {period}))).then(
+        handleSuccess(sendGetRequest(formatUrl('sales', {period, page}))).then(
           (res) => {
             let {sales, totals} = res.data;
             console.log(totals);
@@ -126,7 +127,7 @@ class Sales extends Component {
               </tr>
             </thead>
             <tbody>
-              {sales.map((sale, index) => (
+              {sales.data.map((sale, index) => (
                 <tr key={sale.id}>
                   <td>{++index}</td>
                   <td>
@@ -164,6 +165,7 @@ class Sales extends Component {
               ))}
             </tbody>
           </table>
+          <Pagination data={sales} updateData={this.updateData} />
         </div>
       </div>
     );

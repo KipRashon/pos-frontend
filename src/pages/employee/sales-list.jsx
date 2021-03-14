@@ -1,10 +1,11 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import Pagination from '../../components/pagination/pagination';
 import ToolTipElement from '../../components/tooltip/tooltip-element';
 import {formatDate, getFormattedAmount} from '../../services/utility';
 
 export default function SalesList(props) {
-  const {sales, handleDelete, place} = props;
+  const {sales, handleDelete, place, updateData} = props;
   return (
     <div className='card w-100'>
       <div className='card-header'>
@@ -32,7 +33,7 @@ export default function SalesList(props) {
               </tr>
             </thead>
             <tbody>
-              {sales.map((sale, index) => (
+              {sales.data.map((sale, index) => (
                 <tr key={sale.id}>
                   <td>{++index}</td>
                   <td>
@@ -114,6 +115,7 @@ export default function SalesList(props) {
               ))}
             </tbody>
           </table>
+          <Pagination data={sales} updateData={updateData} />
         </div>
       </div>
     </div>

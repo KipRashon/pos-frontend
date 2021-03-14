@@ -22,13 +22,13 @@ const pages = {
 };
 function EmployeeSales(props) {
   const currentUser = getFromLocal('currentUser');
-  const [sales, setSales] = useState([]);
+  const [sales, setSales] = useState({data: []});
   const [totals, setTotals] = useState({});
   const [period, setPeriod] = useState(time_periods.TODAY.value);
   const [page, setPage] = useState(pages.SALES);
 
-  const updateData = () => {
-    let url = formatUrl('sales', {sold_by: currentUser.id, period});
+  const updateData = (page) => {
+    let url = formatUrl('sales', {sold_by: currentUser.id, period, page});
 
     trackPromise(
       handleError(
@@ -113,6 +113,7 @@ function EmployeeSales(props) {
             handleDelete={handleDelete}
             place={place}
             {...props}
+            updateData={updateData}
           />
         ) : page === pages.EXPENSES ? (
           <ExpensesList period={period} currentUser={currentUser} />

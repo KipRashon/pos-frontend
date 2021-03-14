@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {trackPromise} from 'react-promise-tracker';
 import Modal from '../../components/modal/modal';
+import Pagination from '../../components/pagination/pagination';
 import TableIcon from '../../components/table-icon/table-icon';
 import {
   handleError,
@@ -13,24 +14,23 @@ import {formatUrl, getFromLocal} from '../../services/utility';
 import AddStock from '../admin/stock/add-stock';
 
 export default function EmployeeStock(props) {
-  const [stock, setStock] = useState([]);
+  const [stock, setStock] = useState({data: []});
   const [place, setPlace] = useState(places.BAR);
   const [showAdd, setShowAdd] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
   const [selectedStock, setSelectedStock] = useState({});
+  const [q, setKeyword] = useState('');
 
-  const updateData = () => {
-    trackPromise(
-      handleError(
-        handleSuccess(sendGetRequest(formatUrl('stock', {place}))).then(
-          (res) => {
-            setStock(res.data.stock);
-          }
-        )
+  const updateData = (page) => {
+    handleError(
+      handleSuccess(sendGetRequest(formatUrl('stock', {place, page, q}))).then(
+        (res) => {
+          setStock(res.data.stock);
+        }
       )
     );
   };
-  useEffect(updateData, [place]);
+  useEffect(updateData, [place, q]);
 
   const toggleShowAdd = () => {
     setShowAdd(!showAdd);
@@ -98,6 +98,14 @@ export default function EmployeeStock(props) {
                   </div>
                 </div>
                 <div className='col row justify-content-end'>
+                  <div className='form-group mx-2'>
+                    <input
+                      type='text'
+                      className='form-control'
+                      placeholder='Type to search'
+                      onChange={(e) => setKeyword(e.target.value)}
+                    />
+                  </div>
                   {place === places.RESTAURANT && (
                     <div className='form-group'>
                       <button className='btn btn-info' onClick={toggleShowAdd}>
@@ -121,7 +129,7 @@ export default function EmployeeStock(props) {
                     </tr>
                   </thead>
                   <tbody>
-                    {stock.map((item, index) => (
+                    {stock.data.map((item, index) => (
                       <tr key={item.id}>
                         <td>{++index}</td>
                         <td>{item.stock_name}</td>
@@ -146,6 +154,7 @@ export default function EmployeeStock(props) {
                     ))}
                   </tbody>
                 </table>
+                <Pagination data={stock} updateData={updateData} />
               </div>
             </div>
           </div>
