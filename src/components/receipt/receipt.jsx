@@ -60,6 +60,8 @@ function Receipt(props) {
       ...payment,
       ...payObj,
     });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [payObj.sale_id, payObj]);
 
   const checkIfUseOnline = (method) => {

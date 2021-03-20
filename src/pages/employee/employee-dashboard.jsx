@@ -120,10 +120,8 @@ class EmployeeDashboard extends Component {
         cItem.id === item.id && item.price.measure === cItem.price.measure
     );
     if (index >= 0) {
-      showNotification('Item updated in the cart', 'success', 'bottom-right');
       cartItems[index] = item;
     } else {
-      showNotification('Item added to cart', 'success', 'bottom-right');
       cartItems.push(item);
     }
 
@@ -238,7 +236,7 @@ class EmployeeDashboard extends Component {
     this.setState({
       selectedItem: {},
       cartItems: [],
-      payment: {},
+      payment: {customer_pay: '', customer_change: ''},
       showPrint: false,
     });
     this.props.history.push('/employee/dashboard/' + place);
