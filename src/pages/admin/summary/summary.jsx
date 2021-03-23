@@ -63,8 +63,9 @@ function HistoryItem(props) {
           <div className='col border-right border-dark'>
             <DisplayLabel display={item.sales_total} label='Total Sales' />
             <DisplayLabel display={item.mpesa_sales} label='Mpesa sales' />
-            <DisplayLabel display={item.cash_sales} label='Jumia sales' />
+            <DisplayLabel display={item.cash_sales} label='Cash sales' />
             <DisplayLabel display={item.card_sales} label='Card Sales' />
+            <DisplayLabel display={item.jumia_sales} label='Jumia sales' />
             <DisplayLabel display={item.glovo_sales} label='Glovo Sales' />
             <DisplayLabel
               display={item.uber_eats_sales}

@@ -258,6 +258,8 @@ function Receipt(props) {
                   total: getTotalAmount(),
                   sub_total: getRawTotalAmount(),
                   continueToPrint: false,
+                  customer_change:
+                    parseFloat(payment.customer_pay) - getRawTotalAmount(),
                 },
                 ['cash_pay', 'mpesa_pay']
               )
@@ -276,6 +278,8 @@ function Receipt(props) {
                   total: getTotalAmount(),
                   sub_total: getRawTotalAmount(),
                   continueToPrint: true,
+                  customer_change:
+                    parseFloat(payment.customer_pay) - getRawTotalAmount(),
                 },
                 ['cash_pay', 'mpesa_pay']
               )
