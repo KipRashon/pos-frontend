@@ -236,7 +236,7 @@ class EmployeeDashboard extends Component {
     this.setState({
       selectedItem: {},
       cartItems: [],
-      payment: {customer_pay: '', customer_change: ''},
+      payment: {customer_pay: '', customer_change: '', payment_method: 'Cash'},
       showPrint: false,
     });
     this.props.history.push('/employee/dashboard/' + place);
