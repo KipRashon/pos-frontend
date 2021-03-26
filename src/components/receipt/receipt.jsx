@@ -261,7 +261,7 @@ function Receipt(props) {
                   customer_change:
                     parseFloat(payment.customer_pay) - getRawTotalAmount(),
                 },
-                ['cash_pay', 'mpesa_pay']
+                ['cash_pay', 'mpesa_pay', 'customer_pay']
               )
             )
           }
@@ -281,7 +281,7 @@ function Receipt(props) {
                   customer_change:
                     parseFloat(payment.customer_pay) - getRawTotalAmount(),
                 },
-                ['cash_pay', 'mpesa_pay']
+                ['cash_pay', 'mpesa_pay', 'customer_pay']
               )
             )
           }
