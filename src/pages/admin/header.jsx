@@ -24,7 +24,7 @@ export default function Header(props) {
     <>
       <div className='nav-header'>
         <Link to='/admin' className='brand-logo h4 text-dark'>
-          SCRATCH LTD
+          POS
         </Link>
 
         <div className='nav-control'>

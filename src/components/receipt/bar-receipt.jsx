@@ -64,7 +64,7 @@ export default function BarReceipt(props) {
         id='receipt'
       >
         <p className='centered'>
-          <span className='titles'>SCRATCH KITCHEN LTD</span>
+          <span className='titles'>POS</span>
           <br />
           <span className='titles'>
             {count === 1 ? 'CUSTOMER BILL' : 'ORDER'}
@@ -129,9 +129,7 @@ export default function BarReceipt(props) {
             ' at ' +
             formatDate(payment.created_at)}
           <br />
-          askscratchkitchen@gmail.com
-          <br />
-          ig@scratchkitchen
+          infocomany@gmail.com
         </p>
       </div>
       <div

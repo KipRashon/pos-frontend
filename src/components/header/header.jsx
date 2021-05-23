@@ -35,7 +35,7 @@ function Header(props) {
         </div>
       </div>
       <div className='h3 text-center text-white'>
-        {parseInt(place) === places.BAR ? 'SCRATCH BAR' : 'SCRATCH RESTAURANT'}
+        {parseInt(place) === places.BAR ? 'BAR' : 'RESTAURANT'}
       </div>
     </div>
   );

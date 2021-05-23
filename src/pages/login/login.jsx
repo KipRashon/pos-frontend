@@ -60,10 +60,10 @@ export default class Login extends Component {
     return (
       <div className='container'>
         <div className='row justify-content-center'>
-          <div className='card shadow shadow-secondary mt-4'>
+          <div className='card shadow shadow-secondary mt-4 col-md-5'>
             <div className='card-body'>
               <h1 className='jumbotron jumbotron-fluid bg-transparent'>
-                SCRATCH KITCHEN
+                POINT OF SALE
               </h1>
               <hr />
               <div className='form-group row justify-content-center'>
